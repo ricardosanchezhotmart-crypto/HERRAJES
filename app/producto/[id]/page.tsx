@@ -1,14 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllProductsSync, getBrand, getProduct, getRelated } from "@/lib/catalog";
+import { getAllProductIds, getBrand, getProduct, getRelated } from "@/lib/catalog";
 import { ProductImage } from "@/components/product-image";
 import { ProductActions } from "@/components/product-actions";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
 
-export function generateStaticParams() {
-  return getAllProductsSync().map((p) => ({ id: p.id }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const ids = await getAllProductIds();
+  return ids.map((id) => ({ id }));
 }
 
 export async function generateMetadata({

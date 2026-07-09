@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "import:catalog": "tsx scripts/import-catalog.ts"
+    "import:catalog": "tsx scripts/import-catalog.ts",
+    "seed:firestore": "tsx scripts/seed-firestore.ts"
   },
   "dependencies": {
     "next": "14.2.15",
@@ -39,6 +40,7 @@
     "autoprefixer": "^10.4.20",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.19.1",
+    "firebase-admin": "^12.7.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.15"
   }

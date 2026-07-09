@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ProductImage } from "@/components/product-image";
 import { buildWhatsappQuote, generateQuotePdf } from "@/lib/quote";
+import { saveQuote } from "@/lib/quotes";
+import type { QuoteChannel } from "@/types";
 import { SITE, whatsappLink } from "@/lib/constants";
 
 export function OrderView() {
@@ -32,6 +34,11 @@ export function OrderView() {
       </Card>
     );
   }
+
+  const register = (channel: QuoteChannel) => {
+    // Fire-and-forget: registra la cotización si hay backend, sin bloquear el envío.
+    void saveQuote({ customer: { name: name || undefined }, items, channel });
+  };
 
   const wa = whatsappLink(buildWhatsappQuote(items, name || undefined));
   const emailBody = encodeURIComponent(buildWhatsappQuote(items, name || undefined).replace(/\*/g, ""));
@@ -101,7 +108,7 @@ export function OrderView() {
           </div>
 
           <div className="space-y-2 pt-2">
-            <a href={wa} target="_blank" rel="noopener noreferrer" className="block">
+            <a href={wa} target="_blank" rel="noopener noreferrer" className="block" onClick={() => register("whatsapp")}>
               <Button variant="whatsapp" className="w-full">
                 <MessageCircle className="h-4 w-4" /> Enviar por WhatsApp
               </Button>
@@ -109,11 +116,14 @@ export function OrderView() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => generateQuotePdf(items, name || undefined)}
+              onClick={() => {
+                register("pdf");
+                generateQuotePdf(items, name || undefined);
+              }}
             >
               <FileText className="h-4 w-4" /> Descargar PDF
             </Button>
-            <a href={mailto} className="block">
+            <a href={mailto} className="block" onClick={() => register("email")}>
               <Button variant="outline" className="w-full">
                 <Mail className="h-4 w-4" /> Enviar por correo
               </Button>

@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Un usuario autenticado se considera administrador de la plataforma.
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Catálogo: lectura pública, escritura solo administrador.
+    match /brands/{id}        { allow read: if true; allow write: if isAdmin(); }
+    match /categories/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /subcategories/{id} { allow read: if true; allow write: if isAdmin(); }
+
+    match /products/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+      // Variantes en subcolección (opcional; el modelo también las embebe).
+      match /variants/{sku} { allow read: if true; allow write: if isAdmin(); }
+    }
+
+    // Cotizaciones/pedidos: cualquiera puede crear; solo el admin lee/gestiona.
+    match /quotes/{id} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Registros de importación de catálogos: solo admin.
+    match /imports/{id} { allow read, write: if isAdmin(); }
+  }
+}
