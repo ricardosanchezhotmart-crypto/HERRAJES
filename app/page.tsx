@@ -1,40 +1,53 @@
 import Link from "next/link";
-import { SEED_BRANDS } from "@/lib/constants";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
+import { Hero } from "@/components/hero";
+import { BrandCard } from "@/components/brand-card";
+import { ProductCard } from "@/components/product-card";
+import { getBrands, getProducts } from "@/lib/catalog";
 
-/**
- * Home (esqueleto Fase 2). El diseño completo del Hero, buscador,
- * menú superior y animaciones se implementa en la Fase 3.
- */
-export default function HomePage() {
+export default async function HomePage() {
+  const brands = await getBrands();
+  const products = await getProducts({ brandSlug: "spar" });
+  const featured = products.slice(0, 8);
+
   return (
-    <main className="container flex min-h-screen flex-col items-center justify-center gap-16 py-24 text-center">
-      <div className="max-w-2xl animate-fade-up space-y-6">
-        <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
-          Distribuidora de herrajes
-        </p>
-        <h1 className="text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
-          El herraje adecuado, <br className="hidden sm:block" /> encontrado en segundos.
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          Catálogo profesional SPAR y BONUIT. Busca por código, arma tu pedido y
-          solicita tu cotización.
-        </p>
-      </div>
+    <main>
+      <Hero />
 
-      <section className="grid w-full max-w-3xl gap-6 sm:grid-cols-2">
-        {SEED_BRANDS.map((brand) => (
-          <Link key={brand.id} href={`/marca/${brand.slug}`}>
-            <Card className="group h-48 transition-all hover:-translate-y-1 hover:shadow-xl">
-              <CardContent className="flex h-full flex-col items-center justify-center gap-2">
-                <span className="text-3xl font-semibold tracking-tight">{brand.name}</span>
-                <span className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-                  Ver catálogo →
-                </span>
-              </CardContent>
-            </Card>
+      <section className="container py-16">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-3xl font-semibold tracking-tight">Nuestras marcas</h2>
+            <p className="mt-1 text-muted-foreground">
+              Selecciona una marca para explorar su catálogo.
+            </p>
+          </div>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {brands.map((brand, i) => (
+            <BrandCard key={brand.id} brand={brand} index={i} />
+          ))}
+        </div>
+      </section>
+
+      <section className="container py-16">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-3xl font-semibold tracking-tight">Destacados</h2>
+            <p className="mt-1 text-muted-foreground">Algunos productos del catálogo SPAR.</p>
+          </div>
+          <Link
+            href="/marca/spar"
+            className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+          >
+            Ver todo <ArrowRight className="h-4 w-4" />
           </Link>
-        ))}
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {featured.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
       </section>
     </main>
   );
