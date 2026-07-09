@@ -3,12 +3,17 @@
 import * as React from "react";
 import { collection, getDocs, orderBy, query, updateDoc, doc } from "firebase/firestore";
 import type { User } from "firebase/auth";
-import { LogOut, Lock, RefreshCw } from "lucide-react";
+import { LogOut, Lock, RefreshCw, Upload } from "lucide-react";
 import { getDb } from "@/lib/firebase";
 import { isFirebaseConfigured, onAuthChange, signIn, signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useMounted } from "@/lib/use-mounted";
+import { parseCsv } from "@/importers/shared/csv";
+import { csvToRawProducts } from "@/importers/shared/csv-import";
+import { normalize, type NormalizedCatalog } from "@/importers/shared/normalizer";
+import { SPAR_CSV_MAPPING } from "@/importers/spar/csv-adapter";
+import { pushCatalogClient } from "@/lib/admin-import";
 
 interface QuoteRow {
   id: string;
@@ -94,6 +99,95 @@ function LoginForm() {
   );
 }
 
+function ImportSection() {
+  const [preview, setPreview] = React.useState<NormalizedCatalog | null>(null);
+  const [warnings, setWarnings] = React.useState<string[]>([]);
+  const [fileName, setFileName] = React.useState("");
+  const [status, setStatus] = React.useState<"idle" | "pushing" | "done" | "error">("idle");
+  const [msg, setMsg] = React.useState("");
+
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    setStatus("idle");
+    setMsg("");
+    try {
+      const text = await file.text();
+      const rows = parseCsv(text);
+      const { products, warnings } = csvToRawProducts(rows, SPAR_CSV_MAPPING, "spar");
+      setPreview(normalize(products));
+      setWarnings(warnings);
+    } catch {
+      setPreview(null);
+      setMsg("No se pudo leer el archivo. Verifica que sea un CSV válido (UTF-8).");
+      setStatus("error");
+    }
+  };
+
+  const push = async () => {
+    if (!preview) return;
+    setStatus("pushing");
+    setMsg("");
+    try {
+      await pushCatalogClient(preview, { brand: "spar", source: fileName || "csv" });
+      setStatus("done");
+      setMsg("Catálogo cargado a Firestore correctamente.");
+    } catch (e) {
+      setStatus("error");
+      setMsg("Error al cargar: " + (e instanceof Error ? e.message : "desconocido"));
+    }
+  };
+
+  const variants = preview?.products.reduce((n, p) => n + (p.variants?.length ?? 0), 0) ?? 0;
+
+  return (
+    <Card className="mb-10 p-6">
+      <div className="flex items-center gap-2">
+        <Upload className="h-5 w-5" />
+        <h2 className="text-lg font-semibold tracking-tight">Importar catálogo (CSV)</h2>
+      </div>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Sube el archivo maestro en CSV (UTF-8). Se agrupan las filas por producto y se cargan
+        productos, categorías y variantes a Firestore.
+      </p>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border bg-muted/40 px-4 py-2 text-sm transition hover:bg-muted">
+          <Upload className="h-4 w-4" /> Elegir archivo CSV
+          <input type="file" accept=".csv,text/csv" className="hidden" onChange={onFile} />
+        </label>
+        {fileName && <span className="text-sm text-muted-foreground">{fileName}</span>}
+      </div>
+
+      {preview && (
+        <div className="mt-5 space-y-4">
+          <div className="flex flex-wrap gap-2 text-sm">
+            <span className="rounded-full bg-muted px-3 py-1">{preview.categories.length} categorías</span>
+            <span className="rounded-full bg-muted px-3 py-1">{preview.subcategories.length} subcategorías</span>
+            <span className="rounded-full bg-muted px-3 py-1">{preview.products.length} productos</span>
+            <span className="rounded-full bg-muted px-3 py-1">{variants} variantes</span>
+          </div>
+          {warnings.length > 0 && (
+            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm">
+              <p className="font-medium">Avisos ({warnings.length})</p>
+              <ul className="mt-1 list-disc pl-5 text-muted-foreground">
+                {warnings.slice(0, 5).map((w, i) => <li key={i}>{w}</li>)}
+                {warnings.length > 5 && <li>… y {warnings.length - 5} más</li>}
+              </ul>
+            </div>
+          )}
+          <Button onClick={push} disabled={status === "pushing"}>
+            {status === "pushing" ? "Cargando…" : "Cargar a Firestore"}
+          </Button>
+        </div>
+      )}
+      {msg && (
+        <p className={`mt-3 text-sm ${status === "error" ? "text-red-500" : "text-green-600"}`}>{msg}</p>
+      )}
+    </Card>
+  );
+}
+
 function Dashboard({ user }: { user: User }) {
   const [quotes, setQuotes] = React.useState<QuoteRow[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -137,6 +231,8 @@ function Dashboard({ user }: { user: User }) {
           </Button>
         </div>
       </div>
+
+      <ImportSection />
 
       <h2 className="mb-4 text-lg font-semibold tracking-tight">Solicitudes de cotización</h2>
       {loading ? (
