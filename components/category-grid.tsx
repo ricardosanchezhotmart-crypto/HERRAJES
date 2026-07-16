@@ -13,6 +13,12 @@ const COVER_OVERRIDES: Record<string, string> = {
   "brazos-elevables": "spar_brazos-elevables_brazo-neumatico-spar",
 };
 
+/**
+ * Grid de categorías optimizado para poco scroll:
+ * - Activas: tarjetas con foto en 2 columnas desde móvil (3 en desktop).
+ * - "Próximamente": tiles compactos sin foto — una categoría vacía no debe
+ *   ocupar el mismo espacio que una navegable.
+ */
 export function CategoryGrid({
   categories,
   products,
@@ -32,64 +38,72 @@ export function CategoryGrid({
     );
   }
 
-  return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {categories.map((cat) => {
-        if (cat.comingSoon) {
-          return <ComingSoonCard key={cat.id} category={cat} />;
-        }
-        const overrideId = COVER_OVERRIDES[cat.slug];
-        const cover =
-          (overrideId && products.find((p) => p.id === overrideId)) ||
-          products.find((p) => p.categoryId === cat.id && p.images?.[0]);
-        return (
-          <Link
-            key={cat.id}
-            href={`/categoria/${cat.slug}`}
-            className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <Card className="hover-lift overflow-hidden">
-              <div className="aspect-[4/3] overflow-hidden border-b border-border">
-                <ProductImage
-                  src={cover?.images?.[0]}
-                  alt={cat.name}
-                  label={cat.name}
-                  className="transition-transform duration-200 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="flex items-start justify-between gap-3 p-6">
-                <div>
-                  <h3 className="text-xl font-semibold tracking-tight">{cat.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {cat.description ?? "Explora esta categoría."}
-                  </p>
-                </div>
-                <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-              </div>
-            </Card>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
+  const active = categories.filter((c) => !c.comingSoon);
+  const comingSoon = categories.filter((c) => c.comingSoon);
 
-/** Categoría de la taxonomía todavía sin productos: visible pero no navegable. */
-function ComingSoonCard({ category }: { category: Category }) {
   return (
-    <Card className="overflow-hidden opacity-80">
-      <div className="relative flex aspect-[4/3] items-center justify-center border-b border-border bg-muted/40">
-        <PackageOpen className="h-9 w-9 text-muted-foreground/50" />
-        <span className="absolute right-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[11px] font-medium text-background">
-          Próximamente
-        </span>
+    <div className="space-y-10">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+        {active.map((cat) => {
+          const overrideId = COVER_OVERRIDES[cat.slug];
+          const cover =
+            (overrideId && products.find((p) => p.id === overrideId)) ||
+            products.find((p) => p.categoryId === cat.id && p.images?.[0]);
+          return (
+            <Link
+              key={cat.id}
+              href={`/categoria/${cat.slug}`}
+              className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <Card className="hover-lift h-full overflow-hidden">
+                <div className="aspect-[4/3] overflow-hidden border-b border-border">
+                  <ProductImage
+                    src={cover?.images?.[0]}
+                    alt={cat.name}
+                    label={cat.name}
+                    sizes="(min-width: 1024px) 400px, 50vw"
+                    className="transition-transform duration-200 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <div className="flex items-start justify-between gap-2 p-3.5 sm:p-5">
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold leading-snug tracking-tight sm:text-lg lg:text-xl">
+                      {cat.name}
+                    </h3>
+                    <p className="mt-1 hidden text-sm text-muted-foreground sm:line-clamp-2">
+                      {cat.description ?? "Explora esta categoría."}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-0.5 hidden h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
+                </div>
+              </Card>
+            </Link>
+          );
+        })}
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold tracking-tight text-muted-foreground">{category.name}</h3>
-        <p className="mt-1 text-sm text-muted-foreground/80">
-          {category.description ?? "Pronto disponible."}
-        </p>
-      </div>
-    </Card>
+
+      {comingSoon.length > 0 && (
+        <div>
+          <p className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            Muy pronto
+          </p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {comingSoon.map((cat) => (
+              <div
+                key={cat.id}
+                className="flex items-center justify-between gap-2 rounded-xl border border-dashed border-border px-3 py-2.5"
+              >
+                <span className="min-w-0 truncate text-xs text-muted-foreground sm:text-sm">
+                  {cat.name}
+                </span>
+                <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                  Pronto
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
