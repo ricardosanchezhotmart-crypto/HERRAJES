@@ -14,10 +14,10 @@ const COVER_OVERRIDES: Record<string, string> = {
 };
 
 /**
- * Grid de categorías optimizado para poco scroll:
- * - Activas: tarjetas con foto en 2 columnas desde móvil (3 en desktop).
- * - "Próximamente": tiles compactos sin foto — una categoría vacía no debe
- *   ocupar el mismo espacio que una navegable.
+ * Grid de categorías: todas las categorías se muestran con el mismo formato,
+ * tamaño y distribución (2 columnas desde móvil, 3 en escritorio). Las que aún
+ * no tienen productos llevan un placeholder con el sello "Próximamente" y
+ * enlazan a su página, donde se ofrece consultar por WhatsApp.
  */
 export function CategoryGrid({
   categories,
@@ -38,25 +38,26 @@ export function CategoryGrid({
     );
   }
 
-  const active = categories.filter((c) => !c.comingSoon);
-  const comingSoon = categories.filter((c) => c.comingSoon);
-
   return (
-    <div className="space-y-10">
-      <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-        {active.map((cat) => {
-          const overrideId = COVER_OVERRIDES[cat.slug];
-          const cover =
-            (overrideId && products.find((p) => p.id === overrideId)) ||
-            products.find((p) => p.categoryId === cat.id && p.images?.[0]);
-          return (
-            <Link
-              key={cat.id}
-              href={`/categoria/${cat.slug}`}
-              className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <Card className="hover-lift h-full overflow-hidden">
-                <div className="aspect-[4/3] overflow-hidden border-b border-border">
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+      {categories.map((cat) => {
+        const overrideId = COVER_OVERRIDES[cat.slug];
+        const cover =
+          (overrideId && products.find((p) => p.id === overrideId)) ||
+          products.find((p) => p.categoryId === cat.id && p.images?.[0]);
+        return (
+          <Link
+            key={cat.id}
+            href={`/categoria/${cat.slug}`}
+            className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Card className="hover-lift h-full overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden border-b border-border">
+                {cat.comingSoon ? (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-background">
+                    <PackageOpen className="h-8 w-8 text-muted-foreground/40" />
+                  </div>
+                ) : (
                   <ProductImage
                     src={cover?.images?.[0]}
                     alt={cat.name}
@@ -64,46 +65,28 @@ export function CategoryGrid({
                     sizes="(min-width: 1024px) 400px, 50vw"
                     className="transition-transform duration-200 group-hover:scale-[1.03]"
                   />
-                </div>
-                <div className="flex items-start justify-between gap-2 p-3.5 sm:p-5">
-                  <div className="min-w-0">
-                    <h3 className="text-sm font-semibold leading-snug tracking-tight sm:text-lg lg:text-xl">
-                      {cat.name}
-                    </h3>
-                    <p className="mt-1 hidden text-sm text-muted-foreground sm:line-clamp-2">
-                      {cat.description ?? "Explora esta categoría."}
-                    </p>
-                  </div>
-                  <ArrowRight className="mt-0.5 hidden h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
-                </div>
-              </Card>
-            </Link>
-          );
-        })}
-      </div>
-
-      {comingSoon.length > 0 && (
-        <div>
-          <p className="mb-3 text-sm font-medium uppercase tracking-wide text-muted-foreground">
-            Muy pronto
-          </p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-            {comingSoon.map((cat) => (
-              <div
-                key={cat.id}
-                className="flex items-center justify-between gap-2 rounded-xl border border-dashed border-border px-3 py-2.5"
-              >
-                <span className="min-w-0 truncate text-xs text-muted-foreground sm:text-sm">
-                  {cat.name}
-                </span>
-                <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
-                  Pronto
-                </span>
+                )}
+                {cat.comingSoon && (
+                  <span className="absolute right-2 top-2 rounded-full bg-foreground/85 px-2.5 py-1 text-[10px] font-medium text-background sm:text-[11px]">
+                    Próximamente
+                  </span>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+              <div className="flex items-start justify-between gap-2 p-3.5 sm:p-5">
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold leading-snug tracking-tight sm:text-lg lg:text-xl">
+                    {cat.name}
+                  </h3>
+                  <p className="mt-1 hidden text-sm text-muted-foreground sm:line-clamp-2">
+                    {cat.description ?? "Explora esta categoría."}
+                  </p>
+                </div>
+                <ArrowRight className="mt-0.5 hidden h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
+              </div>
+            </Card>
+          </Link>
+        );
+      })}
     </div>
   );
 }
