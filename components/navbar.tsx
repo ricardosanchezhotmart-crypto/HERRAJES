@@ -23,11 +23,8 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-1 text-sm md:flex">
-          <Link href="/marca/spar" className="rounded-full px-3 py-2 transition hover:bg-muted">
-            SPAR
-          </Link>
-          <Link href="/marca/bonuit" className="rounded-full px-3 py-2 transition hover:bg-muted">
-            BONUIT
+          <Link href="/#categorias" className="rounded-full px-3 py-2 transition hover:bg-muted">
+            Categorías
           </Link>
           <Link href="/contacto" className="rounded-full px-3 py-2 transition hover:bg-muted">
             Contacto

@@ -1,29 +1,25 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getBrand, getCategory, getProducts, getSubcategories } from "@/lib/catalog";
+import { getCategory, getProducts, getSubcategories } from "@/lib/catalog";
+import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
 import { ProductCard } from "@/components/product-card";
 
 export async function generateMetadata({
   params,
 }: {
-  params: { brand: string; category: string };
+  params: { category: string };
 }): Promise<Metadata> {
-  const cat = await getCategory(params.brand, params.category);
+  const cat = await getCategory(ACTIVE_BRAND_SLUG, params.category);
   return { title: cat ? cat.name : "Categoría" };
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { brand: string; category: string };
-}) {
-  const brand = await getBrand(params.brand);
-  const category = await getCategory(params.brand, params.category);
-  if (!brand || !category) notFound();
+export default async function CategoryPage({ params }: { params: { category: string } }) {
+  const category = await getCategory(ACTIVE_BRAND_SLUG, params.category);
+  if (!category) notFound();
 
   const products = await getProducts({
-    brandSlug: brand.slug,
+    brandSlug: ACTIVE_BRAND_SLUG,
     categorySlug: category.slug,
   });
   const subcategories = await getSubcategories(category.id);
@@ -47,10 +43,6 @@ export default async function CategoryPage({
       <nav className="mb-6 text-sm text-muted-foreground">
         <Link href="/" className="transition hover:text-foreground">
           Inicio
-        </Link>
-        <span className="px-2">/</span>
-        <Link href={`/marca/${brand.slug}`} className="transition hover:text-foreground">
-          {brand.name}
         </Link>
         <span className="px-2">/</span>
         <span className="text-foreground">{category.name}</span>

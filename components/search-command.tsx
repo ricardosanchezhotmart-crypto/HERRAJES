@@ -74,7 +74,7 @@ export function SearchCommand({
               autoFocus
               value={query}
               onValueChange={setQuery}
-              placeholder="Buscar por código, nombre, marca o descripción…"
+              placeholder="Buscar por código, nombre o descripción…"
               className="h-14 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: `%s · ${SITE.shortName}`,
   },
   description: SITE.description,
-  keywords: ["herrajes", "muebles", "SPAR", "BONUIT", "bisagras", "rieles", "carpintería"],
+  keywords: ["herrajes", "muebles", "bisagras", "rieles", "brazos elevables", "carpintería"],
   openGraph: {
     title: SITE.name,
     description: SITE.description,

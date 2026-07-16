@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllProductIds, getBrand, getProduct, getRelated } from "@/lib/catalog";
+import { getAllProductIds, getCategories, getProduct, getRelated } from "@/lib/catalog";
+import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
 import { ProductImage } from "@/components/product-image";
 import { ProductActions } from "@/components/product-actions";
 import { ProductCard } from "@/components/product-card";
@@ -31,7 +32,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const product = await getProduct(params.id);
   if (!product) notFound();
 
-  const brand = await getBrand(product.brandId);
+  const categories = await getCategories(ACTIVE_BRAND_SLUG);
+  const category = categories.find((c) => c.id === product.categoryId);
   const related = await getRelated(product);
 
   return (
@@ -40,11 +42,11 @@ export default async function ProductPage({ params }: { params: { id: string } }
         <Link href="/" className="transition hover:text-foreground">
           Inicio
         </Link>
-        {brand && (
+        {category && (
           <>
             <span className="px-2">/</span>
-            <Link href={`/marca/${brand.slug}`} className="transition hover:text-foreground">
-              {brand.name}
+            <Link href={`/categoria/${category.slug}`} className="transition hover:text-foreground">
+              {category.name}
             </Link>
           </>
         )}
@@ -74,7 +76,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
           <div>
             {product.line && (
               <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                {brand?.name} · {product.line}
+                {product.line}
               </span>
             )}
             <h1 className="mt-1 text-3xl font-semibold tracking-tight">{product.name}</h1>

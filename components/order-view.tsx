@@ -44,7 +44,7 @@ export function OrderView() {
         <p className="max-w-sm text-sm text-muted-foreground">
           Agrega productos desde el catálogo para solicitar tu cotización.
         </p>
-        <Link href="/marca/spar">
+        <Link href="/#categorias">
           <Button>Explorar catálogo</Button>
         </Link>
       </Card>

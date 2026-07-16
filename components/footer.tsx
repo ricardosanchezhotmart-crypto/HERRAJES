@@ -7,11 +7,8 @@ export function Footer() {
       <div className="container flex flex-col items-center justify-between gap-4 py-10 text-sm text-muted-foreground sm:flex-row">
         <p>© {new Date().getFullYear()} Distribuidora de herrajes. Todos los derechos reservados.</p>
         <div className="flex items-center gap-5">
-          <Link href="/marca/spar" className="transition hover:text-foreground">
-            SPAR
-          </Link>
-          <Link href="/marca/bonuit" className="transition hover:text-foreground">
-            BONUIT
+          <Link href="/#categorias" className="transition hover:text-foreground">
+            Categorías
           </Link>
           <Link href="/contacto" className="transition hover:text-foreground">
             Contacto

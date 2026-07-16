@@ -3,8 +3,8 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
-import type { Brand, Category, Product } from "@/types";
-import { getBrands, getCategories, searchProducts } from "@/lib/catalog";
+import type { Category, Product } from "@/types";
+import { getCategories, searchProducts } from "@/lib/catalog";
 import { addRecentSearch } from "@/lib/recent-searches";
 import { ProductCard } from "@/components/product-card";
 import { cn } from "@/lib/utils";
@@ -17,13 +17,10 @@ export function SearchResults() {
   const [query, setQuery] = React.useState(initial);
   const [results, setResults] = React.useState<Product[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [brands, setBrands] = React.useState<Brand[]>([]);
   const [categories, setCategories] = React.useState<Category[]>([]);
-  const [brandFilter, setBrandFilter] = React.useState<string | null>(null);
   const [catFilter, setCatFilter] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    getBrands().then(setBrands);
     getCategories().then(setCategories);
   }, []);
 
@@ -54,25 +51,16 @@ export function SearchResults() {
     return () => clearTimeout(t);
   }, [query, router]);
 
-  const brandName = (slug: string) => brands.find((b) => b.slug === slug)?.name ?? slug;
   const catName = (id: string) => categories.find((c) => c.id === id)?.name ?? id;
 
   // Facetas a partir de los resultados actuales.
-  const brandFacets = React.useMemo(() => {
+  const catFacets = React.useMemo(() => {
     const m = new Map<string, number>();
-    results.forEach((p) => m.set(p.brandId, (m.get(p.brandId) ?? 0) + 1));
+    results.forEach((p) => m.set(p.categoryId, (m.get(p.categoryId) ?? 0) + 1));
     return [...m.entries()];
   }, [results]);
-  const catFacets = React.useMemo(() => {
-    const src = brandFilter ? results.filter((p) => p.brandId === brandFilter) : results;
-    const m = new Map<string, number>();
-    src.forEach((p) => m.set(p.categoryId, (m.get(p.categoryId) ?? 0) + 1));
-    return [...m.entries()];
-  }, [results, brandFilter]);
 
-  const filtered = results.filter(
-    (p) => (!brandFilter || p.brandId === brandFilter) && (!catFilter || p.categoryId === catFilter)
-  );
+  const filtered = results.filter((p) => !catFilter || p.categoryId === catFilter);
 
   return (
     <div>
@@ -83,10 +71,9 @@ export function SearchResults() {
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            setBrandFilter(null);
             setCatFilter(null);
           }}
-          placeholder="Buscar por código, nombre, marca o descripción…"
+          placeholder="Buscar por código, nombre o descripción…"
           className="h-14 w-full rounded-2xl border border-border bg-card pl-12 pr-4 text-base outline-none focus:ring-2 focus:ring-ring"
         />
       </div>
@@ -99,16 +86,6 @@ export function SearchResults() {
 
       {results.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
-          {brandFacets.length > 1 &&
-            brandFacets.map(([slug, n]) => (
-              <FilterChip
-                key={slug}
-                active={brandFilter === slug}
-                onClick={() => setBrandFilter(brandFilter === slug ? null : slug)}
-              >
-                {brandName(slug)} <span className="opacity-60">{n}</span>
-              </FilterChip>
-            ))}
           {catFacets.length > 1 &&
             catFacets.map(([id, n]) => (
               <FilterChip
@@ -119,12 +96,9 @@ export function SearchResults() {
                 {catName(id)} <span className="opacity-60">{n}</span>
               </FilterChip>
             ))}
-          {(brandFilter || catFilter) && (
+          {catFilter && (
             <button
-              onClick={() => {
-                setBrandFilter(null);
-                setCatFilter(null);
-              }}
+              onClick={() => setCatFilter(null)}
               className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition hover:text-foreground"
             >
               <X className="h-3.5 w-3.5" /> Limpiar

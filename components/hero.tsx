@@ -44,8 +44,7 @@ export function Hero() {
           animate="show"
           className="max-w-xl text-balance text-lg text-muted-foreground"
         >
-          Catálogo profesional SPAR y BONUIT. Encuentra por código, arma tu pedido y
-          solicita tu cotización sin fricción.
+          Encuentra por código, arma tu pedido y solicita tu cotización sin fricción.
         </motion.p>
         <motion.div
           custom={3}
@@ -54,7 +53,7 @@ export function Hero() {
           animate="show"
           className="flex flex-wrap items-center justify-center gap-3 pt-2"
         >
-          <Link href="/marca/spar">
+          <Link href="#categorias">
             <Button size="lg">
               Explorar catálogo <ArrowRight className="h-4 w-4" />
             </Button>
