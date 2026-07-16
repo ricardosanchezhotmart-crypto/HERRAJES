@@ -99,7 +99,7 @@ export function SearchResults() {
           {catFilter && (
             <button
               onClick={() => setCatFilter(null)}
-              className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+              className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <X className="h-3.5 w-3.5" /> Limpiar
             </button>
@@ -160,8 +160,9 @@ function FilterChip({
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
       className={cn(
-        "rounded-full border px-3 py-1.5 text-sm transition",
+        "rounded-full border px-3 py-1.5 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         active
           ? "border-primary bg-primary text-primary-foreground"
           : "border-border bg-background hover:bg-muted"

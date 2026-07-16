@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllProductIds, getCategories, getProduct, getRelated } from "@/lib/catalog";
+import {
+  getAllProductIds,
+  getBrand,
+  getCategories,
+  getProduct,
+  getRelated,
+  getSubcategories,
+} from "@/lib/catalog";
 import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
 import { ProductImage } from "@/components/product-image";
+import { ProductGallery } from "@/components/product-gallery";
 import { ProductActions } from "@/components/product-actions";
 import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
@@ -36,12 +44,24 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SpecRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3 text-sm">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="text-right font-medium">{value}</dd>
+    </div>
+  );
+}
+
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
   if (!product) notFound();
 
   const categories = await getCategories(ACTIVE_BRAND_SLUG);
   const category = categories.find((c) => c.id === product.categoryId);
+  const subcategories = category ? await getSubcategories(category.id) : [];
+  const subcategory = subcategories.find((s) => s.id === product.subcategoryId);
+  const brand = await getBrand(ACTIVE_BRAND_SLUG);
   const related = await getRelated(product);
   const code = product.variants?.[0]?.sku;
   const hasDimensions = (product.dimensions && product.dimensions.length > 0) || product.dimensionImageUrl;
@@ -64,21 +84,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
         <span className="text-foreground">{product.name}</span>
       </nav>
 
-      {/* 1. Fotografías grandes */}
-      <div className="mx-auto max-w-3xl space-y-3">
-        <Card className="aspect-[4/3] overflow-hidden">
-          <ProductImage src={product.images?.[0]} alt={product.name} label={product.name} />
-        </Card>
-        {product.images && product.images.length > 1 && (
-          <div className="grid grid-cols-4 gap-3">
-            {product.images.slice(1, 5).map((src, i) => (
-              <Card key={i} className="aspect-square overflow-hidden opacity-80">
-                <ProductImage src={src} alt={`${product.name} ${i + 1}`} label={product.name} />
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
+      {/* 1. Fotografías grandes, con zoom */}
+      <ProductGallery images={product.images} name={product.name} />
 
       <div className="mx-auto mt-20 max-w-2xl space-y-16 sm:mt-24 sm:space-y-20">
         {/* 2-3. Nombre + código */}
@@ -118,20 +125,20 @@ export default async function ProductPage({ params }: { params: { id: string } }
           </div>
         )}
 
-        {/* 6. Especificaciones */}
-        {product.specs && product.specs.length > 0 && (
-          <div>
-            <SectionLabel>Especificaciones</SectionLabel>
-            <dl className="mt-4 divide-y divide-border">
-              {product.specs.map((s) => (
-                <div key={s.key} className="flex items-center justify-between py-3 text-sm">
-                  <dt className="text-muted-foreground">{s.key}</dt>
-                  <dd className="font-medium">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        )}
+        {/* 6. Ficha técnica: metadatos del catálogo + especificaciones extraídas.
+            Cada campo se muestra solo si el dato existe realmente; nunca se
+            inventa ni se deja vacío. */}
+        <div>
+          <SectionLabel>Ficha técnica</SectionLabel>
+          <dl className="mt-4 divide-y divide-border">
+            {brand && <SpecRow label="Marca" value={brand.name} />}
+            {code && <SpecRow label="Código" value={code} />}
+            {category && <SpecRow label="Categoría" value={category.name} />}
+            {subcategory && <SpecRow label="Subcategoría" value={subcategory.name} />}
+            {product.line && <SpecRow label="Línea" value={product.line} />}
+            {product.specs?.map((s) => <SpecRow key={s.key} label={s.key} value={s.value} />)}
+          </dl>
+        </div>
 
         {/* 7. Medidas */}
         {hasDimensions && (

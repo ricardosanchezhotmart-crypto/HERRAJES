@@ -130,7 +130,7 @@ export const SEED_RAW: RawProduct[] = [
       { key: "Resistencia a la corrosión", value: "24 hr" },
       { key: "Ciclos de vida", value: "30.000" },
     ],
-    catalogPage: 171,
+    catalogPage: 172,
     variants: [
       { sku: "10025237", description: "Bisagra Torino Parche 35MM-110° C/T 4800 4H", attributes: { tipo: "Parche", tornillos: "Con tornillos" } },
       { sku: "10025238", description: "Bisagra Torino Semiparche 35MM-110° C/T 48084 4H", attributes: { tipo: "Semiparche", tornillos: "Con tornillos" } },
@@ -155,7 +155,7 @@ export const SEED_RAW: RawProduct[] = [
       { key: "Resistencia a la corrosión", value: "72 hr" },
       { key: "Ciclos de vida", value: "50.000" },
     ],
-    catalogPage: 171,
+    catalogPage: 172,
     variants: [
       { sku: "10030063", description: "Bisagra 3D Acero Q195 Niquelado Negro", attributes: { acabado: "Niquelado negro" } },
     ],
@@ -177,7 +177,7 @@ export const SEED_RAW: RawProduct[] = [
       { key: "Capacidad de peso", value: "5 Kg" },
       { key: "Resistencia a la corrosión", value: "24 hr" },
     ],
-    catalogPage: 172,
+    catalogPage: 173,
     variants: [
       { sku: "10009361", description: "BISAGRA TORINO 165° PARCHE S/T", attributes: { tipo: "Parche" } },
       { sku: "10009362", description: "BISAGRA TORINO 165° SEMIPARCHE S/T", attributes: { tipo: "Semiparche" } },
@@ -315,7 +315,7 @@ export const SEED_RAW: RawProduct[] = [
     description:
       "Accesorio complementario para lograr diferentes alturas en los kits cajón SPAR. Material acero y plástico con pintura electrostática.",
     features: ["Medida: 50 cm", "Fácil instalación"],
-    catalogPage: 186,
+    catalogPage: 187,
     variants: [
       { sku: "10029444", description: "GALERÍA RECTANGULAR KIT CAJÓN 50 CM BLANCO SEMIMATE", attributes: { acabado: "Blanco semimate" } },
       { sku: "10029445", description: "GALERÍA RECTANGULAR KIT CAJÓN 50 CM GRAFITO/ANTRACITA", attributes: { acabado: "Grafito/Antracita" } },

@@ -32,16 +32,37 @@ export function buildQuoteText(items: QuoteItem[], c: QuoteCustomer = {}): strin
     .join("\n");
 }
 
-/** Mensaje para WhatsApp (con formato en negrita). */
+/** Mensaje de WhatsApp para un pedido con varios productos (numerado). */
 export function buildWhatsappQuote(items: QuoteItem[], c: QuoteCustomer = {}): string {
+  const lines = ["Hola 👋", "Estoy interesado en los siguientes herrajes:"];
+  const info = customerLines(c);
+  if (info.length) lines.push("", ...info);
+  lines.push("");
+  items.forEach((i, n) => {
+    lines.push(`${n + 1}.`, i.name, `Código ${i.sku}`, `Cantidad ${i.qty}`, "");
+  });
+  lines.push("¿Podrían ayudarme con una cotización?", "Muchas gracias.");
+  if (c.notes) lines.push("", `Notas: ${c.notes}`);
+  return lines.join("\n");
+}
+
+export interface QuickInquiryItem {
+  name: string;
+  code: string;
+  qty?: number;
+}
+
+/** Mensaje de WhatsApp para consultar un solo producto desde su ficha. */
+export function buildProductInquiryMessage(item: QuickInquiryItem): string {
   return [
-    "*Solicitud de cotización*",
-    ...customerLines(c),
+    "Hola 👋",
+    "Estoy interesado en los siguientes herrajes:",
+    `• ${item.name}`,
+    `Código: ${item.code}`,
+    `Cantidad: ${item.qty ?? 1}`,
     "",
-    ...items.map((i, n) => `${n + 1}. ${i.name}\n   Ref: ${i.sku} · Cant: ${i.qty}`),
-    "",
-    `Total de referencias: ${items.length}`,
-    c.notes ? `\nNotas: ${c.notes}` : "",
+    "¿Podrían brindarme información sobre disponibilidad y precio?",
+    "Muchas gracias.",
   ].join("\n");
 }
 

@@ -49,14 +49,18 @@ export function CategoryGrid({
           (overrideId && products.find((p) => p.id === overrideId)) ||
           products.find((p) => p.categoryId === cat.id && p.images?.[0]);
         return (
-          <Link key={cat.id} href={`/categoria/${cat.slug}`} className="group block">
+          <Link
+            key={cat.id}
+            href={`/categoria/${cat.slug}`}
+            className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <Card className="hover-lift overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden border-b border-border">
                 <ProductImage
                   src={cover?.images?.[0]}
                   alt={cat.name}
                   label={cat.name}
-                  className="transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="transition-transform duration-200 group-hover:scale-[1.03]"
                 />
               </div>
               <div className="flex items-start justify-between gap-3 p-6">

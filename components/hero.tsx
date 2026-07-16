@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useSearchStore } from "@/store/search";
-import { ProductImage } from "@/components/product-image";
 
 const fade = {
   hidden: { opacity: 0, y: 14 },
@@ -18,15 +18,27 @@ export function Hero() {
   const setSearchOpen = useSearchStore((s) => s.setOpen);
 
   return (
-    <section className="py-20 sm:py-28">
-      <div className="container flex flex-col items-center gap-10 text-center">
+    <section className="relative flex min-h-[560px] items-center overflow-hidden sm:min-h-[640px]">
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src="/products/spar_rieles_kit-cajon-spar-cacerolero-h128mm-para-vidrio.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/25" />
+      </div>
+
+      <div className="container flex flex-col items-center gap-8 py-24 text-center">
         <div className="flex flex-col items-center gap-5">
           <motion.h1
             custom={0}
             variants={fade}
             initial="hidden"
             animate="show"
-            className="max-w-2xl text-balance text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[68px] lg:leading-[1.05]"
+            className="max-w-2xl text-balance text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[68px] lg:leading-[1.05]"
           >
             Encuentra el herraje correcto.
           </motion.h1>
@@ -35,7 +47,7 @@ export function Hero() {
             variants={fade}
             initial="hidden"
             animate="show"
-            className="max-w-md text-balance text-lg text-muted-foreground sm:text-xl"
+            className="max-w-md text-balance text-lg text-white/85 sm:text-xl"
           >
             Busca por código, nombre, medida o descripción.
           </motion.p>
@@ -47,7 +59,8 @@ export function Hero() {
           initial="hidden"
           animate="show"
           onClick={() => setSearchOpen(true)}
-          className="group flex h-16 w-full max-w-xl items-center gap-3 rounded-2xl border border-border bg-card px-6 text-left shadow-subtle transition hover:border-foreground/20"
+          aria-label="Abrir búsqueda de herrajes"
+          className="group flex h-16 w-full max-w-xl items-center gap-3 rounded-2xl border border-white/20 bg-white/95 px-6 text-left shadow-elevate backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white dark:bg-card/95 dark:hover:bg-card"
         >
           <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
           <span className="flex-1 text-base text-muted-foreground group-hover:text-foreground sm:text-lg">
@@ -57,20 +70,6 @@ export function Hero() {
             ⌘K
           </kbd>
         </motion.button>
-
-        <motion.div
-          custom={3}
-          variants={fade}
-          initial="hidden"
-          animate="show"
-          className="mt-6 aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-2xl border border-border"
-        >
-          <ProductImage
-            src="/products/spar_rieles_accesorio-bajo-fregadero.jpg"
-            alt="Herraje instalado en un mueble de baño"
-            label="Herrajes"
-          />
-        </motion.div>
       </div>
     </section>
   );

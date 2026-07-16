@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { Command } from "cmdk";
 import { Clock, Search, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { searchProducts } from "@/lib/catalog";
+import { getCategories, searchProducts } from "@/lib/catalog";
 import { addRecentSearch, getRecentSearches } from "@/lib/recent-searches";
 import { Highlight } from "@/components/highlight";
+import { ProductImage } from "@/components/product-image";
 import { useSearchStore } from "@/store/search";
-import type { Product } from "@/types";
+import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
+import type { Category, Product } from "@/types";
 
 /** Modal de búsqueda tipo Spotlight. Su visibilidad vive en useSearchStore,
  * así que cualquier componente (navbar, hero) puede abrirlo con setOpen/toggle. */
@@ -20,6 +22,11 @@ export function SearchCommand() {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState<Product[]>([]);
   const [recent, setRecent] = React.useState<string[]>([]);
+  const [categories, setCategories] = React.useState<Category[]>([]);
+
+  React.useEffect(() => {
+    getCategories(ACTIVE_BRAND_SLUG).then(setCategories);
+  }, []);
 
   React.useEffect(() => {
     if (open) setRecent(getRecentSearches());
@@ -61,6 +68,7 @@ export function SearchCommand() {
   };
 
   const q = query.trim();
+  const catName = (id: string) => categories.find((c) => c.id === id)?.name;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -113,14 +121,17 @@ export function SearchCommand() {
                     key={p.id}
                     value={p.id}
                     onSelect={() => goProduct(p.id)}
-                    className="flex cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm aria-selected:bg-muted"
+                    className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm aria-selected:bg-muted"
                   >
-                    <div className="min-w-0">
+                    <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-border">
+                      <ProductImage src={p.images?.[0]} alt="" label={p.name} sizes="44px" />
+                    </div>
+                    <div className="min-w-0 flex-1">
                       <p className="truncate font-medium">
                         <Highlight text={p.name} query={q} />
                       </p>
                       <p className="truncate text-xs text-muted-foreground">
-                        {p.line ? `${p.line} · ` : ""}
+                        {catName(p.categoryId) ? `${catName(p.categoryId)} · ` : ""}
                         <Highlight text={p.variants?.[0]?.sku ?? ""} query={q} />
                       </p>
                     </div>

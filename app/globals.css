@@ -14,11 +14,11 @@
     --border: 0 0% 92.5%;        /* #ECECEC */
     --input: 0 0% 92.5%;
 
-    /* Único color de acento: usado solo en botones principales,
-       estados activos, links importantes e indicadores. */
-    --primary: 243 75% 59%;      /* indigo */
+    /* Único color de acento (azul petróleo): usado solo en botones
+       principales, estados activos, links importantes e indicadores. */
+    --primary: 199 76% 25%;      /* azul petróleo */
     --primary-foreground: 0 0% 100%;
-    --ring: 243 75% 59%;
+    --ring: 199 76% 25%;
 
     --radius: 0.75rem;
   }
@@ -33,9 +33,9 @@
     --border: 240 4% 18%;
     --input: 240 4% 18%;
 
-    --primary: 243 82% 68%;
+    --primary: 199 70% 48%;      /* azul petróleo, mas claro para contraste en oscuro */
     --primary-foreground: 0 0% 100%;
-    --ring: 243 82% 68%;
+    --ring: 199 70% 48%;
   }
 
   * {

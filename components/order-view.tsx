@@ -145,24 +145,24 @@ export function OrderView() {
             <div className="flex items-center gap-1 rounded-full border border-border p-1">
               <button
                 onClick={() => setQty(item.sku, item.qty - 1)}
-                className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-muted"
-                aria-label="Restar"
+                className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                aria-label={`Restar cantidad de ${item.name}`}
               >
                 <Minus className="h-3.5 w-3.5" />
               </button>
               <span className="w-8 text-center text-sm font-medium tabular-nums">{item.qty}</span>
               <button
                 onClick={() => setQty(item.sku, item.qty + 1)}
-                className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-muted"
-                aria-label="Sumar"
+                className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                aria-label={`Sumar cantidad de ${item.name}`}
               >
                 <Plus className="h-3.5 w-3.5" />
               </button>
             </div>
             <button
               onClick={() => remove(item.sku)}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground"
-              aria-label="Eliminar"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label={`Eliminar ${item.name} del pedido`}
             >
               <Trash2 className="h-4 w-4" />
             </button>
@@ -170,7 +170,7 @@ export function OrderView() {
         ))}
         <button
           onClick={clear}
-          className="text-sm text-muted-foreground transition hover:text-foreground"
+          className="rounded text-sm text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           Vaciar pedido
         </button>
