@@ -17,7 +17,7 @@ export default function ContactPage() {
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <a href={whatsappLink("Hola, quiero información de sus herrajes.")} target="_blank" rel="noopener noreferrer">
           <Card className="hover-lift flex h-full flex-col gap-3 p-6">
-            <MessageCircle className="h-6 w-6 text-[#25D366]" />
+            <MessageCircle className="h-6 w-6 text-[#16A34A]" />
             <div>
               <p className="font-medium">WhatsApp</p>
               <p className="text-sm text-muted-foreground">Respuesta rápida a tus consultas</p>

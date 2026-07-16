@@ -18,7 +18,7 @@ export function ProductCard({ product }: { product: Product }) {
         className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <Card className="hover-lift h-full overflow-hidden">
-          <div className="aspect-[4/3] overflow-hidden border-b border-border">
+          <div className="aspect-square overflow-hidden border-b border-border">
             <ProductImage
               src={product.images?.[0]}
               alt={product.name}
@@ -26,7 +26,7 @@ export function ProductCard({ product }: { product: Product }) {
               className="transition-transform duration-200 group-hover:scale-[1.03]"
             />
           </div>
-          <div className="space-y-2 p-4">
+          <div className="space-y-2.5 p-5">
             {code && (
               <p className="font-mono text-xs tracking-tight text-muted-foreground">{code}</p>
             )}
@@ -34,7 +34,7 @@ export function ProductCard({ product }: { product: Product }) {
             {traits.length > 0 && (
               <p className="line-clamp-1 text-xs text-muted-foreground">{traits.join(" · ")}</p>
             )}
-            <span className="inline-flex items-center gap-1 pt-1 text-xs font-medium text-primary">
+            <span className="inline-flex items-center gap-1 pt-1.5 text-xs font-medium text-primary">
               Ver detalles
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </span>
@@ -49,7 +49,7 @@ export function ProductCard({ product }: { product: Product }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Consultar ${product.name} por WhatsApp`}
-        className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#25D366] shadow-subtle transition-transform duration-200 hover:scale-110 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#16A34A] shadow-subtle transition-transform duration-200 hover:scale-110 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <MessageCircle className="h-4 w-4" />
       </a>

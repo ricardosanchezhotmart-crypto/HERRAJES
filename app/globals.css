@@ -48,11 +48,12 @@
 }
 
 @layer utilities {
-  /* Hover elegante y discreto: sin sombras grandes. */
+  /* Hover elegante y discreto: leve elevación con sombra suave. */
   .hover-lift {
-    @apply transition-[transform,border-color] duration-300 ease-out;
+    @apply transition-[transform,box-shadow,border-color] ease-out;
+    transition-duration: 180ms;
   }
   .hover-lift:hover {
-    @apply -translate-y-0.5 border-foreground/20;
+    @apply -translate-y-[3px] border-foreground/20 shadow-elevate;
   }
 }
