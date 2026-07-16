@@ -25,6 +25,8 @@ export interface Category {
   icon?: string;
   description?: string;
   order: number;
+  /** Categoría de la taxonomía que aún no tiene productos cargados. */
+  comingSoon?: boolean;
 }
 
 export interface Subcategory {

@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { PackageOpen, MessageCircle } from "lucide-react";
 import { getCategory, getProducts, getSubcategories } from "@/lib/catalog";
-import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
+import { ACTIVE_BRAND_SLUG, whatsappLink } from "@/lib/constants";
 import { ProductCard } from "@/components/product-card";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({
   params,
@@ -50,9 +52,34 @@ export default async function CategoryPage({ params }: { params: { category: str
 
       <header className="mb-16">
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{category.name}</h1>
-        <p className="mt-3 text-lg text-muted-foreground">{products.length} productos</p>
+        <p className="mt-3 text-lg text-muted-foreground">
+          {products.length > 0
+            ? `${products.length} ${products.length === 1 ? "producto" : "productos"}`
+            : "Categoría en preparación"}
+        </p>
       </header>
 
+      {products.length === 0 ? (
+        <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border py-20 text-center">
+          <PackageOpen className="h-10 w-10 text-muted-foreground" />
+          <div>
+            <p className="text-lg font-medium">Próximamente</p>
+            <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground">
+              Estamos incorporando los productos de {category.name.toLowerCase()}. Si buscas algo
+              puntual, escríbenos y con gusto te ayudamos.
+            </p>
+          </div>
+          <a
+            href={whatsappLink(`Hola 👋 Estoy buscando ${category.name.toLowerCase()}. ¿Tienen disponibilidad?`)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="whatsapp">
+              <MessageCircle className="h-4 w-4" /> Consultar por WhatsApp
+            </Button>
+          </a>
+        </div>
+      ) : (
       <div className="space-y-16">
         {groups
           .filter((g) => g.items.length > 0)
@@ -71,6 +98,7 @@ export default async function CategoryPage({ params }: { params: { category: str
             </section>
           ))}
       </div>
+      )}
     </main>
   );
 }

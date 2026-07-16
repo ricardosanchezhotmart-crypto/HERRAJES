@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SITE } from "@/lib/constants";
+import { SITE, ACTIVE_BRAND_SLUG } from "@/lib/constants";
+import { getCategories } from "@/lib/catalog";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -25,13 +26,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const categories = await getCategories(ACTIVE_BRAND_SLUG);
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.variable}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="flex min-h-screen flex-col">
-            <Navbar />
+            <Navbar categories={categories} />
             <div className="flex-1">{children}</div>
             <Footer />
           </div>

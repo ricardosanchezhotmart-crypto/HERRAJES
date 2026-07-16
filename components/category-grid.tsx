@@ -4,15 +4,6 @@ import type { Category, Product } from "@/types";
 import { Card } from "@/components/ui/card";
 import { ProductImage } from "@/components/product-image";
 
-/** Descripción corta por categoría (copy de presentación, no vive en los datos). */
-const TAGLINES: Record<string, string> = {
-  bisagras: "Para puertas abatibles.",
-  rieles: "Para cajones y correderas.",
-  "brazos-elevables": "Para puertas plegables y abatibles hacia arriba.",
-  "sistemas-para-closet": "Para puertas corredizas y organización de closet.",
-  "accesorios-para-cocina": "Organización y aprovechamiento del espacio.",
-};
-
 /**
  * Portada preferida por categoría: el producto cuya fotografía muestra mejor
  * el herraje en contexto (instalado), en vez de la primera imagen disponible.
@@ -44,6 +35,9 @@ export function CategoryGrid({
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {categories.map((cat) => {
+        if (cat.comingSoon) {
+          return <ComingSoonCard key={cat.id} category={cat} />;
+        }
         const overrideId = COVER_OVERRIDES[cat.slug];
         const cover =
           (overrideId && products.find((p) => p.id === overrideId)) ||
@@ -67,7 +61,7 @@ export function CategoryGrid({
                 <div>
                   <h3 className="text-xl font-semibold tracking-tight">{cat.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {TAGLINES[cat.slug] ?? "Explora esta categoría."}
+                    {cat.description ?? "Explora esta categoría."}
                   </p>
                 </div>
                 <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
@@ -77,5 +71,25 @@ export function CategoryGrid({
         );
       })}
     </div>
+  );
+}
+
+/** Categoría de la taxonomía todavía sin productos: visible pero no navegable. */
+function ComingSoonCard({ category }: { category: Category }) {
+  return (
+    <Card className="overflow-hidden opacity-80">
+      <div className="relative flex aspect-[4/3] items-center justify-center border-b border-border bg-muted/40">
+        <PackageOpen className="h-9 w-9 text-muted-foreground/50" />
+        <span className="absolute right-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[11px] font-medium text-background">
+          Próximamente
+        </span>
+      </div>
+      <div className="p-6">
+        <h3 className="text-xl font-semibold tracking-tight text-muted-foreground">{category.name}</h3>
+        <p className="mt-1 text-sm text-muted-foreground/80">
+          {category.description ?? "Pronto disponible."}
+        </p>
+      </div>
+    </Card>
   );
 }

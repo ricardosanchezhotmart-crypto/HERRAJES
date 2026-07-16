@@ -11,6 +11,12 @@ export default async function HomePage() {
     getCategories(ACTIVE_BRAND_SLUG),
     getProducts({ brandSlug: ACTIVE_BRAND_SLUG }),
   ]);
+  // Categorías con productos primero; las "Próximamente" al final (menos scroll
+  // en móvil para llegar al contenido navegable), conservando el orden interno.
+  const orderedCategories = [
+    ...categories.filter((c) => !c.comingSoon),
+    ...categories.filter((c) => c.comingSoon),
+  ];
   const featured = products.slice(0, 8);
 
   return (
@@ -24,7 +30,7 @@ export default async function HomePage() {
             Explora el catálogo por categoría y encuentra el herraje que necesitas.
           </p>
         </div>
-        <CategoryGrid categories={categories} products={products} />
+        <CategoryGrid categories={orderedCategories} products={products} />
       </section>
 
       {featured.length > 0 && (
