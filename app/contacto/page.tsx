@@ -8,15 +8,15 @@ export const metadata: Metadata = { title: "Contacto" };
 
 export default function ContactPage() {
   return (
-    <main className="container max-w-3xl py-16">
-      <h1 className="text-4xl font-semibold tracking-tight">Contacto</h1>
-      <p className="mt-2 text-muted-foreground">
+    <main className="container max-w-3xl py-16 sm:py-20">
+      <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Contacto</h1>
+      <p className="mt-3 text-lg text-muted-foreground">
         Escríbenos y con gusto te asesoramos para elegir el herraje adecuado.
       </p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <a href={whatsappLink("Hola, quiero información de sus herrajes.")} target="_blank" rel="noopener noreferrer">
-          <Card className="flex h-full flex-col gap-3 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+          <Card className="hover-lift flex h-full flex-col gap-3 p-6">
             <MessageCircle className="h-6 w-6 text-[#25D366]" />
             <div>
               <p className="font-medium">WhatsApp</p>
@@ -25,7 +25,7 @@ export default function ContactPage() {
           </Card>
         </a>
         <a href={`mailto:${SITE.email}`}>
-          <Card className="flex h-full flex-col gap-3 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+          <Card className="hover-lift flex h-full flex-col gap-3 p-6">
             <Mail className="h-6 w-6" />
             <div>
               <p className="font-medium">Correo</p>
@@ -37,7 +37,7 @@ export default function ContactPage() {
 
       <Card className="mt-4 flex items-center gap-3 p-6 text-sm text-muted-foreground">
         <MapPin className="h-5 w-5 shrink-0" />
-        Distribuidora de herrajes SPAR y BONUIT.
+        Distribuidora de herrajes para muebles.
       </Card>
 
       <div className="mt-10 flex justify-center">

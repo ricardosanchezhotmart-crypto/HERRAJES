@@ -17,10 +17,10 @@ export default async function HomePage() {
     <main>
       <Hero />
 
-      <section id="categorias" className="container scroll-mt-24 py-16">
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold tracking-tight">Categorías</h2>
-          <p className="mt-1 text-muted-foreground">
+      <section id="categorias" className="container scroll-mt-24 py-20 sm:py-28">
+        <div className="mb-12">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">Categorías</h2>
+          <p className="mt-3 text-lg text-muted-foreground">
             Explora el catálogo por categoría y encuentra el herraje que necesitas.
           </p>
         </div>
@@ -28,11 +28,11 @@ export default async function HomePage() {
       </section>
 
       {featured.length > 0 && (
-        <section className="container py-16">
-          <div className="mb-8 flex items-end justify-between">
+        <section className="container py-20 sm:py-28">
+          <div className="mb-12 flex items-end justify-between">
             <div>
-              <h2 className="text-3xl font-semibold tracking-tight">Destacados</h2>
-              <p className="mt-1 text-muted-foreground">Productos populares del catálogo.</p>
+              <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">Destacados</h2>
+              <p className="mt-3 text-lg text-muted-foreground">Productos populares del catálogo.</p>
             </div>
             <Link
               href="#categorias"

@@ -4,6 +4,7 @@ import { SITE } from "@/lib/constants";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { SearchCommand } from "@/components/search-command";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="flex-1">{children}</div>
             <Footer />
           </div>
+          <SearchCommand />
         </ThemeProvider>
       </body>
     </html>

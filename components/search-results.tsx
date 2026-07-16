@@ -110,6 +110,12 @@ export function SearchResults() {
       <div className="mt-8">
         {!query.trim() ? (
           <p className="text-muted-foreground">Escribe para buscar en el catálogo.</p>
+        ) : loading && results.length === 0 ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
         ) : !loading && filtered.length === 0 ? (
           <div className="rounded-2xl border border-border py-16 text-center">
             <p className="text-lg font-medium">Sin resultados</p>
@@ -124,6 +130,19 @@ export function SearchResults() {
             ))}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="animate-pulse overflow-hidden rounded-xl border border-border">
+      <div className="aspect-[4/3] bg-muted" />
+      <div className="space-y-2 p-4">
+        <div className="h-3 w-16 rounded bg-muted" />
+        <div className="h-4 w-full rounded bg-muted" />
+        <div className="h-3 w-24 rounded bg-muted" />
       </div>
     </div>
   );

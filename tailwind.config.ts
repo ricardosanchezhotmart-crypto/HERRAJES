@@ -42,6 +42,11 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        // Sombras casi inexistentes, inspiradas en Linear.
+        subtle: "0 1px 2px rgba(0,0,0,0.04)",
+        elevate: "0 1px 2px rgba(0,0,0,0.04), 0 12px 32px -12px rgba(0,0,0,0.10)",
+      },
       keyframes: {
         "fade-up": {
           from: { opacity: "0", transform: "translateY(12px)" },

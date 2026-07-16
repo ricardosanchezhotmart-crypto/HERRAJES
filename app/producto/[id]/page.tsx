@@ -28,6 +28,14 @@ export async function generateMetadata({
   };
 }
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+      {children}
+    </p>
+  );
+}
+
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
   if (!product) notFound();
@@ -35,9 +43,11 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const categories = await getCategories(ACTIVE_BRAND_SLUG);
   const category = categories.find((c) => c.id === product.categoryId);
   const related = await getRelated(product);
+  const code = product.variants?.[0]?.sku;
+  const hasDimensions = (product.dimensions && product.dimensions.length > 0) || product.dimensionImageUrl;
 
   return (
-    <main className="container py-12">
+    <main className="container py-12 sm:py-16">
       <nav className="mb-8 text-sm text-muted-foreground">
         <Link href="/" className="transition hover:text-foreground">
           Inicio
@@ -54,112 +64,114 @@ export default async function ProductPage({ params }: { params: { id: string } }
         <span className="text-foreground">{product.name}</span>
       </nav>
 
-      <div className="grid gap-12 lg:grid-cols-2">
-        {/* Galería */}
-        <div className="space-y-4">
-          <Card className="aspect-square overflow-hidden">
-            <ProductImage src={product.images?.[0]} alt={product.name} label={product.name} />
-          </Card>
-          {product.images && product.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
-              {product.images.slice(1, 5).map((src, i) => (
-                <Card key={i} className="aspect-square overflow-hidden opacity-80">
-                  <ProductImage src={src} alt={`${product.name} ${i + 1}`} label={product.name} />
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Info */}
-        <div className="space-y-6">
-          <div>
-            {product.line && (
-              <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                {product.line}
-              </span>
-            )}
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight">{product.name}</h1>
-            {product.description && (
-              <p className="mt-3 text-muted-foreground">{product.description}</p>
-            )}
+      {/* 1. Fotografías grandes */}
+      <div className="mx-auto max-w-3xl space-y-3">
+        <Card className="aspect-[4/3] overflow-hidden">
+          <ProductImage src={product.images?.[0]} alt={product.name} label={product.name} />
+        </Card>
+        {product.images && product.images.length > 1 && (
+          <div className="grid grid-cols-4 gap-3">
+            {product.images.slice(1, 5).map((src, i) => (
+              <Card key={i} className="aspect-square overflow-hidden opacity-80">
+                <ProductImage src={src} alt={`${product.name} ${i + 1}`} label={product.name} />
+              </Card>
+            ))}
           </div>
-
-          {product.specs && product.specs.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {product.specs.map((s) => (
-                <span
-                  key={s.key}
-                  className="rounded-full border border-border bg-muted/50 px-3 py-1 text-sm"
-                >
-                  <span className="text-muted-foreground">{s.key}:</span>{" "}
-                  <span className="font-medium">{s.value}</span>
-                </span>
-              ))}
-            </div>
-          )}
-
-          <ProductActions product={product} />
-
-          {product.applications && (
-            <div className="rounded-xl border border-border p-4">
-              <p className="text-sm font-medium">Aplicaciones</p>
-              <p className="mt-1 text-sm text-muted-foreground">{product.applications}</p>
-            </div>
-          )}
-
-          {product.features && product.features.length > 0 && (
-            <div>
-              <p className="mb-2 text-sm font-medium">Características</p>
-              <ul className="space-y-1.5 text-sm text-muted-foreground">
-                {product.features.map((f, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-foreground/40" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
-      {/* Referencias / variantes como tabla técnica */}
-      {product.variants && product.variants.length > 0 && (
-        <section className="mt-16">
-          <h2 className="mb-4 text-lg font-semibold tracking-tight">Referencias</h2>
-          <div className="overflow-x-auto rounded-xl border border-border">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50 text-left text-muted-foreground">
-                <tr>
-                  <th className="px-4 py-3 font-medium">Referencia</th>
-                  <th className="px-4 py-3 font-medium">Descripción</th>
-                </tr>
-              </thead>
-              <tbody>
-                {product.variants.map((v) => (
-                  <tr key={v.sku} className="border-t border-border">
-                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">{v.sku}</td>
-                    <td className="px-4 py-3">{v.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
+      <div className="mx-auto mt-20 max-w-2xl space-y-16 sm:mt-24 sm:space-y-20">
+        {/* 2-3. Nombre + código */}
+        <div>
+          {product.line && (
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              {product.line}
+            </p>
+          )}
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">{product.name}</h1>
+          {code && <p className="mt-3 font-mono text-sm text-muted-foreground">Código {code}</p>}
+          {product.description && (
+            <p className="mt-5 text-lg text-muted-foreground">{product.description}</p>
+          )}
+        </div>
 
-      {/* Relacionados */}
+        {/* 4. Características principales */}
+        {product.features && product.features.length > 0 && (
+          <div>
+            <SectionLabel>Características principales</SectionLabel>
+            <ul className="mt-4 space-y-2.5">
+              {product.features.map((f, i) => (
+                <li key={i} className="flex gap-2.5 text-base text-foreground">
+                  <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-foreground/40" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* 5. Aplicaciones */}
+        {product.applications && (
+          <div>
+            <SectionLabel>Aplicaciones</SectionLabel>
+            <p className="mt-4 text-base text-foreground">{product.applications}</p>
+          </div>
+        )}
+
+        {/* 6. Especificaciones */}
+        {product.specs && product.specs.length > 0 && (
+          <div>
+            <SectionLabel>Especificaciones</SectionLabel>
+            <dl className="mt-4 divide-y divide-border">
+              {product.specs.map((s) => (
+                <div key={s.key} className="flex items-center justify-between py-3 text-sm">
+                  <dt className="text-muted-foreground">{s.key}</dt>
+                  <dd className="font-medium">{s.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        {/* 7. Medidas */}
+        {hasDimensions && (
+          <div>
+            <SectionLabel>Medidas</SectionLabel>
+            {product.dimensionImageUrl && (
+              <Card className="mt-4 aspect-video overflow-hidden">
+                <ProductImage src={product.dimensionImageUrl} alt={`Medidas de ${product.name}`} label="Medidas" />
+              </Card>
+            )}
+            {product.dimensions && product.dimensions.length > 0 && (
+              <dl className="mt-4 divide-y divide-border">
+                {product.dimensions.map((d, i) => (
+                  <div key={i} className="flex items-center justify-between py-3 text-sm">
+                    {d.label && <dt className="text-muted-foreground">{d.label}</dt>}
+                    <dd className="font-medium">{d.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* 8. Productos compatibles */}
       {related.length > 0 && (
-        <section className="mt-16">
-          <h2 className="mb-6 text-lg font-semibold tracking-tight">Productos relacionados</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <section className="mx-auto mt-20 max-w-5xl sm:mt-24">
+          <SectionLabel>Productos compatibles</SectionLabel>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
         </section>
       )}
+
+      {/* Agregar al pedido / Solicitar cotización / WhatsApp */}
+      <div className="mx-auto mt-20 max-w-2xl border-t border-border pt-12 sm:mt-24">
+        <ProductActions product={product} />
+      </div>
     </main>
   );
 }

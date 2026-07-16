@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import { useSearchStore } from "@/store/search";
+import { ProductImage } from "@/components/product-image";
 
 const fade = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -15,54 +15,61 @@ const fade = {
 };
 
 export function Hero() {
+  const setSearchOpen = useSearchStore((s) => s.setOpen);
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,hsl(var(--muted))_0%,transparent_70%)]" />
-      <div className="container flex flex-col items-center gap-6 py-24 text-center sm:py-32">
-        <motion.p
-          custom={0}
-          variants={fade}
-          initial="hidden"
-          animate="show"
-          className="text-sm font-medium uppercase tracking-widest text-muted-foreground"
-        >
-          Distribuidora de herrajes para muebles
-        </motion.p>
-        <motion.h1
-          custom={1}
-          variants={fade}
-          initial="hidden"
-          animate="show"
-          className="max-w-3xl text-balance text-5xl font-semibold tracking-tight sm:text-7xl"
-        >
-          El herraje adecuado, encontrado en segundos.
-        </motion.h1>
-        <motion.p
+    <section className="py-20 sm:py-28">
+      <div className="container flex flex-col items-center gap-10 text-center">
+        <div className="flex flex-col items-center gap-5">
+          <motion.h1
+            custom={0}
+            variants={fade}
+            initial="hidden"
+            animate="show"
+            className="max-w-2xl text-balance text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[68px] lg:leading-[1.05]"
+          >
+            Encuentra el herraje correcto.
+          </motion.h1>
+          <motion.p
+            custom={1}
+            variants={fade}
+            initial="hidden"
+            animate="show"
+            className="max-w-md text-balance text-lg text-muted-foreground sm:text-xl"
+          >
+            Busca por código, nombre, medida o descripción.
+          </motion.p>
+        </div>
+
+        <motion.button
           custom={2}
           variants={fade}
           initial="hidden"
           animate="show"
-          className="max-w-xl text-balance text-lg text-muted-foreground"
+          onClick={() => setSearchOpen(true)}
+          className="group flex h-16 w-full max-w-xl items-center gap-3 rounded-2xl border border-border bg-card px-6 text-left shadow-subtle transition hover:border-foreground/20"
         >
-          Encuentra por código, arma tu pedido y solicita tu cotización sin fricción.
-        </motion.p>
+          <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
+          <span className="flex-1 text-base text-muted-foreground group-hover:text-foreground sm:text-lg">
+            Buscar herrajes…
+          </span>
+          <kbd className="hidden rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground sm:inline">
+            ⌘K
+          </kbd>
+        </motion.button>
+
         <motion.div
           custom={3}
           variants={fade}
           initial="hidden"
           animate="show"
-          className="flex flex-wrap items-center justify-center gap-3 pt-2"
+          className="mt-6 aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-2xl border border-border"
         >
-          <Link href="#categorias">
-            <Button size="lg">
-              Explorar catálogo <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-          <Link href="/contacto">
-            <Button size="lg" variant="outline">
-              Contacto
-            </Button>
-          </Link>
+          <ProductImage
+            src="/products/spar_rieles_accesorio-bajo-fregadero.jpg"
+            alt="Herraje instalado en un mueble de baño"
+            label="Herrajes"
+          />
         </motion.div>
       </div>
     </section>

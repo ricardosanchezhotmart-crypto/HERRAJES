@@ -2,6 +2,25 @@ import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 import type { Category, Product } from "@/types";
 import { Card } from "@/components/ui/card";
+import { ProductImage } from "@/components/product-image";
+
+/** Descripción corta por categoría (copy de presentación, no vive en los datos). */
+const TAGLINES: Record<string, string> = {
+  bisagras: "Para puertas abatibles.",
+  rieles: "Para cajones y correderas.",
+  "brazos-elevables": "Para puertas plegables y abatibles hacia arriba.",
+  "sistemas-para-closet": "Para puertas corredizas y organización de closet.",
+  "accesorios-para-cocina": "Organización y aprovechamiento del espacio.",
+};
+
+/**
+ * Portada preferida por categoría: el producto cuya fotografía muestra mejor
+ * el herraje en contexto (instalado), en vez de la primera imagen disponible.
+ */
+const COVER_OVERRIDES: Record<string, string> = {
+  rieles: "spar_rieles_kit-cajon-spar-cacerolero-h128mm-para-vidrio",
+  "brazos-elevables": "spar_brazos-elevables_brazo-neumatico-spar",
+};
 
 export function CategoryGrid({
   categories,
@@ -23,17 +42,32 @@ export function CategoryGrid({
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {categories.map((cat) => {
-        const count = products.filter((p) => p.categoryId === cat.id).length;
+        const overrideId = COVER_OVERRIDES[cat.slug];
+        const cover =
+          (overrideId && products.find((p) => p.id === overrideId)) ||
+          products.find((p) => p.categoryId === cat.id && p.images?.[0]);
         return (
-          <Link key={cat.id} href={`/categoria/${cat.slug}`} className="group">
-            <Card className="flex h-40 flex-col justify-between p-6 transition-all hover:-translate-y-1 hover:shadow-lg">
-              <div className="flex items-start justify-between">
-                <h3 className="text-xl font-semibold tracking-tight">{cat.name}</h3>
-                <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+          <Link key={cat.id} href={`/categoria/${cat.slug}`} className="group block">
+            <Card className="hover-lift overflow-hidden">
+              <div className="aspect-[4/3] overflow-hidden border-b border-border">
+                <ProductImage
+                  src={cover?.images?.[0]}
+                  alt={cat.name}
+                  label={cat.name}
+                  className="transition-transform duration-500 group-hover:scale-[1.03]"
+                />
               </div>
-              <p className="text-sm text-muted-foreground">{count} productos</p>
+              <div className="flex items-start justify-between gap-3 p-6">
+                <div>
+                  <h3 className="text-xl font-semibold tracking-tight">{cat.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {TAGLINES[cat.slug] ?? "Explora esta categoría."}
+                  </p>
+                </div>
+                <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+              </div>
             </Card>
           </Link>
         );

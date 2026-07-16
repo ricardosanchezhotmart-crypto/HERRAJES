@@ -8,15 +8,14 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { searchProducts } from "@/lib/catalog";
 import { addRecentSearch, getRecentSearches } from "@/lib/recent-searches";
 import { Highlight } from "@/components/highlight";
+import { useSearchStore } from "@/store/search";
 import type { Product } from "@/types";
 
-export function SearchCommand({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (v: boolean) => void;
-}) {
+/** Modal de búsqueda tipo Spotlight. Su visibilidad vive en useSearchStore,
+ * así que cualquier componente (navbar, hero) puede abrirlo con setOpen/toggle. */
+export function SearchCommand() {
+  const open = useSearchStore((s) => s.open);
+  const onOpenChange = useSearchStore((s) => s.setOpen);
   const router = useRouter();
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState<Product[]>([]);

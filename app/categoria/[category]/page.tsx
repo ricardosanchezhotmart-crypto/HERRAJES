@@ -39,8 +39,8 @@ export default async function CategoryPage({ params }: { params: { category: str
   }
 
   return (
-    <main className="container py-12">
-      <nav className="mb-6 text-sm text-muted-foreground">
+    <main className="container py-12 sm:py-16">
+      <nav className="mb-8 text-sm text-muted-foreground">
         <Link href="/" className="transition hover:text-foreground">
           Inicio
         </Link>
@@ -48,18 +48,18 @@ export default async function CategoryPage({ params }: { params: { category: str
         <span className="text-foreground">{category.name}</span>
       </nav>
 
-      <header className="mb-10">
-        <h1 className="text-4xl font-semibold tracking-tight">{category.name}</h1>
-        <p className="mt-2 text-muted-foreground">{products.length} productos</p>
+      <header className="mb-16">
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{category.name}</h1>
+        <p className="mt-3 text-lg text-muted-foreground">{products.length} productos</p>
       </header>
 
-      <div className="space-y-12">
+      <div className="space-y-16">
         {groups
           .filter((g) => g.items.length > 0)
           .map((group) => (
             <section key={group.title || "all"}>
               {group.title && (
-                <h2 className="mb-4 text-lg font-semibold tracking-tight text-muted-foreground">
+                <h2 className="mb-5 text-sm font-medium uppercase tracking-wide text-muted-foreground">
                   {group.title}
                 </h2>
               )}
