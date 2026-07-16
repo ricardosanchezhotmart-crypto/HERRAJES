@@ -58,13 +58,15 @@ export default async function ProductPage({ params }: { params: { id: string } }
           <Card className="aspect-square overflow-hidden">
             <ProductImage src={product.images?.[0]} alt={product.name} label={product.name} />
           </Card>
-          <div className="grid grid-cols-4 gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Card key={i} className="aspect-square overflow-hidden opacity-70">
-                <ProductImage src={product.images?.[i + 1]} alt={`${product.name} ${i + 1}`} label={product.name} />
-              </Card>
-            ))}
-          </div>
+          {product.images && product.images.length > 1 && (
+            <div className="grid grid-cols-4 gap-3">
+              {product.images.slice(1, 5).map((src, i) => (
+                <Card key={i} className="aspect-square overflow-hidden opacity-80">
+                  <ProductImage src={src} alt={`${product.name} ${i + 1}`} label={product.name} />
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Info */}

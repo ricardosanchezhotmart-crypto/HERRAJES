@@ -1,6 +1,7 @@
 /** Repositorio basado en los datos seed (modo desarrollo / sin Firebase). */
 import { SEED_RAW } from "@/data/seed";
 import { normalize } from "@/importers/shared/normalizer";
+import { attachImages } from "@/data/product-images";
 import { SEED_BRANDS } from "@/lib/constants";
 import type { Brand } from "@/types";
 import type { CatalogRepo, ProductFilter } from "./types";
@@ -29,7 +30,7 @@ const dataset: Dataset = {
   brands,
   categories: n.categories,
   subcategories: n.subcategories,
-  products: n.products,
+  products: attachImages(n.products),
 };
 
 export const seedDataset = dataset;

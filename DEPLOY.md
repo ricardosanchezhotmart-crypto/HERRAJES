@@ -2,7 +2,31 @@
 
 Esta guía lleva el proyecto de cero a producción en **Vercel + Firebase**.
 
-## 0. Requisitos
+---
+
+## ⚡ Opción rápida (MVP sin Firebase)
+
+La app ya incluye el **catálogo SPAR** y las **fotos de referencia** horneadas en el
+código (modo *seed*), y funciona como tienda virtual: el cliente elige productos y
+cantidades y **envía el pedido al WhatsApp del vendedor**. Para publicar el MVP
+**no necesitas Firebase**: basta Vercel y el número de WhatsApp.
+
+1. Sube el repo a GitHub.
+2. En <https://vercel.com> → *New Project* → importa el repo (framework Next.js, autodetectado).
+3. Define **solo** estas variables de entorno:
+   ```
+   NEXT_PUBLIC_WHATSAPP=57XXXXXXXXXX        # WhatsApp del vendedor, sin +
+   NEXT_PUBLIC_CONTACT_EMAIL=ventas@tudominio.com
+   ```
+4. Deploy. Listo: catálogo navegable, buscador y pedidos por WhatsApp.
+
+> BONUIT aparece como **"Próximamente"** hasta cargar su catálogo.
+> El panel `/admin`, la persistencia de cotizaciones y la importación por CSV
+> requieren Firebase (pasos completos abajo), pero **no** son necesarios para el MVP.
+
+---
+
+## 0. Requisitos (versión completa con Firebase)
 
 - Node.js 20 (ver `.nvmrc`)
 - Cuenta de GitHub, Vercel y Firebase

@@ -9,11 +9,13 @@
  */
 import { SEED_RAW } from "../data/seed";
 import { normalize } from "../importers/shared/normalizer";
+import { attachImages } from "../data/product-images";
 import { SEED_BRANDS } from "../lib/constants";
 import { uploadCatalog } from "../importers/shared/upload";
 
 async function main() {
   const catalog = normalize(SEED_RAW);
+  catalog.products = attachImages(catalog.products);
   const brands = SEED_BRANDS.map((b, i) => ({ id: b.id, name: b.name, slug: b.slug, order: i + 1 }));
   await uploadCatalog(catalog, {
     brand: "spar",
