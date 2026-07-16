@@ -5,8 +5,8 @@ export const SITE = {
   shortName: "Herrajes",
   description:
     "Plataforma profesional de herrajes para muebles. Encuentra el herraje adecuado y solicita tu cotización.",
-  // Reemplazar por el número real de la distribuidora (formato internacional sin +).
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "573000000000",
+  // Número del vendedor (formato internacional sin +). Override con NEXT_PUBLIC_WHATSAPP.
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "573183484540",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "ventas@ejemplo.com",
 } as const;
 
