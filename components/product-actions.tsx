@@ -8,7 +8,7 @@ import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
 import { whatsappLink } from "@/lib/constants";
 import { buildProductInquiryMessage } from "@/lib/quote";
-import { cn } from "@/lib/utils";
+import { cn, formatCOP } from "@/lib/utils";
 
 export function ProductActions({ product }: { product: Product }) {
   const router = useRouter();
@@ -44,6 +44,14 @@ export function ProductActions({ product }: { product: Product }) {
 
   return (
     <div className="space-y-5">
+      {typeof selected?.price === "number" ? (
+        <p className="text-3xl font-semibold tracking-tight tabular-nums">
+          {formatCOP(selected.price)}
+        </p>
+      ) : (
+        <p className="text-sm text-muted-foreground">Precio a consultar por WhatsApp</p>
+      )}
+
       {variants.length > 1 && (
         <div className="space-y-2">
           <p className="text-sm font-medium">Selecciona una referencia</p>
@@ -64,7 +72,12 @@ export function ProductActions({ product }: { product: Product }) {
                   <span className="block truncate">{v.description}</span>
                   <span className="text-xs text-muted-foreground">Ref. {v.sku}</span>
                 </span>
-                {v.sku === sku && <Check className="h-4 w-4 shrink-0" />}
+                <span className="flex shrink-0 items-center gap-2">
+                  {typeof v.price === "number" && (
+                    <span className="text-sm font-semibold tabular-nums">{formatCOP(v.price)}</span>
+                  )}
+                  {v.sku === sku && <Check className="h-4 w-4" />}
+                </span>
               </button>
             ))}
           </div>

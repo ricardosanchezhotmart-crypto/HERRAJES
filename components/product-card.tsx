@@ -5,11 +5,14 @@ import { Card } from "@/components/ui/card";
 import { ProductImage } from "@/components/product-image";
 import { whatsappLink } from "@/lib/constants";
 import { buildProductInquiryMessage } from "@/lib/quote";
+import { formatCOP, minPrice } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
   const code = product.variants?.[0]?.sku;
   const traits = (product.specs ?? []).slice(0, 2).map((s) => `${s.key} ${s.value}`);
   const waMessage = buildProductInquiryMessage({ name: product.name, code: code ?? "N/A" });
+  const price = minPrice((product.variants ?? []).map((v) => v.price));
+  const multiPriced = (product.variants ?? []).filter((v) => typeof v.price === "number").length > 1;
 
   return (
     <div className="group relative">
@@ -33,6 +36,12 @@ export function ProductCard({ product }: { product: Product }) {
             <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{product.name}</h3>
             {traits.length > 0 && (
               <p className="line-clamp-1 text-xs text-muted-foreground">{traits.join(" · ")}</p>
+            )}
+            {typeof price === "number" && (
+              <p className="pt-0.5 text-sm font-semibold text-foreground">
+                {multiPriced && <span className="text-xs font-normal text-muted-foreground">Desde </span>}
+                {formatCOP(price)}
+              </p>
             )}
             <span className="inline-flex items-center gap-1 pt-1.5 text-xs font-medium text-primary">
               Ver detalles

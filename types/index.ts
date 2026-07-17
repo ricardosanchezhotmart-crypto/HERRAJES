@@ -61,6 +61,7 @@ export interface Variant {
   sku: string; // "10003937" — código de pedido/cotización
   description: string; // "BISAGRA OMEGA 3'' ... NIQUELADA BO-90 NI"
   attributes?: Record<string, string>; // { acabado: "Niquelado", tamaño: "60cm" }
+  price?: number; // precio de lista en COP (opcional)
   active: boolean;
 }
 

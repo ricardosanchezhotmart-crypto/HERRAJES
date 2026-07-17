@@ -5,6 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** Formatea un precio en pesos colombianos (COP), sin decimales. */
+export function formatCOP(value: number): string {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+/** Precio mínimo entre las variantes de un producto (para "desde $…"). */
+export function minPrice(prices: (number | undefined)[]): number | undefined {
+  const nums = prices.filter((p): p is number => typeof p === "number");
+  return nums.length ? Math.min(...nums) : undefined;
+}
+
 /** Genera un slug URL-safe a partir de un texto (acentos incluidos). */
 export function slugify(input: string): string {
   return input

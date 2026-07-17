@@ -14,6 +14,8 @@ export interface RawVariant {
   sku: string;
   description: string;
   attributes?: Record<string, string>;
+  /** Precio de lista en COP (opcional; puede no estar disponible aún). */
+  price?: number;
 }
 
 export interface RawProduct {
@@ -85,6 +87,7 @@ export function normalize(raw: RawProduct[]): NormalizedCatalog {
       sku: v.sku,
       description: v.description,
       attributes: v.attributes,
+      price: v.price,
       active: true,
     }));
 
