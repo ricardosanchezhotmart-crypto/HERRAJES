@@ -66,6 +66,19 @@ export function buildProductInquiryMessage(item: QuickInquiryItem): string {
   ].join("\n");
 }
 
+/** Mensaje de WhatsApp para consultar varias referencias/medidas de un producto. */
+export function buildProductMultiInquiry(
+  productName: string,
+  lines: { label: string; code: string; qty: number }[]
+): string {
+  const out = ["Hola 👋", `Estoy interesado en: ${productName}`, ""];
+  lines.forEach((l) => {
+    out.push(`• ${l.label}`, `Código: ${l.code}`, `Cantidad: ${l.qty}`, "");
+  });
+  out.push("¿Podrían brindarme información sobre disponibilidad y precio?", "Muchas gracias.");
+  return out.join("\n");
+}
+
 /** Genera un PDF de cotización con jsPDF (solo en cliente). */
 export async function generateQuotePdf(items: QuoteItem[], c: QuoteCustomer = {}) {
   const { default: jsPDF } = await import("jspdf");

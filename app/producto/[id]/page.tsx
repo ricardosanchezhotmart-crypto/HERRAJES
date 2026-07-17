@@ -63,7 +63,9 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const subcategory = subcategories.find((s) => s.id === product.subcategoryId);
   const brand = await getBrand(ACTIVE_BRAND_SLUG);
   const related = await getRelated(product);
-  const code = product.variants?.[0]?.sku;
+  // El código en la cabecera/ficha solo tiene sentido con una única referencia;
+  // con varias (p. ej. rieles por medida) cada una lleva su código en el selector.
+  const code = (product.variants?.length ?? 0) === 1 ? product.variants![0].sku : undefined;
   const hasDimensions = (product.dimensions && product.dimensions.length > 0) || product.dimensionImageUrl;
 
   return (
