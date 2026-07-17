@@ -9,7 +9,7 @@ import { ProductImage } from "@/components/product-image";
  * el herraje en contexto (instalado), en vez de la primera imagen disponible.
  */
 const COVER_OVERRIDES: Record<string, string> = {
-  rieles: "spar_rieles_kit-cajon-spar-cacerolero-h128mm-para-vidrio",
+  cajones: "spar_cajones_kit-cajon-spar-cacerolero-h128mm-para-vidrio",
   "brazos-elevables": "spar_brazos-elevables_brazo-neumatico-spar",
 };
 

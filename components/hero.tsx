@@ -21,7 +21,7 @@ export function Hero() {
     <section className="relative flex min-h-[400px] items-center overflow-hidden sm:min-h-[520px] lg:min-h-[640px]">
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/products/spar_rieles_kit-cajon-spar-cacerolero-h128mm-para-vidrio.jpg"
+          src="/products/spar_cajones_kit-cajon-spar-cacerolero-h128mm-para-vidrio.jpg"
           alt=""
           fill
           priority

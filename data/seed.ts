@@ -248,7 +248,7 @@ export const SEED_RAW: RawProduct[] = [
   /* ================= RIELES / CAJONES ================= */
   {
     brandSlug: "spar",
-    category: "Rieles",
+    category: "Cajones",
     line: "Kit Cajón SPAR",
     name: "Kit Cajón Spar Básico H 90mm 40 Kg-50cm",
     description:
@@ -271,7 +271,7 @@ export const SEED_RAW: RawProduct[] = [
   },
   {
     brandSlug: "spar",
-    category: "Rieles",
+    category: "Cajones",
     line: "Kit Cajón SPAR",
     name: "Kit Cajón Spar Básico H 175mm",
     description:
@@ -290,7 +290,7 @@ export const SEED_RAW: RawProduct[] = [
   },
   {
     brandSlug: "spar",
-    category: "Rieles",
+    category: "Cajones",
     line: "Kit Cajón SPAR",
     name: "Kit Cajón Spar Cacerolero H128mm para vidrio",
     description:
@@ -309,7 +309,7 @@ export const SEED_RAW: RawProduct[] = [
   },
   {
     brandSlug: "spar",
-    category: "Rieles",
+    category: "Cajones",
     line: "Kit Cajón SPAR",
     name: "Galería rectangular Kit Cajón 50 cm",
     description:
@@ -323,7 +323,7 @@ export const SEED_RAW: RawProduct[] = [
   },
   {
     brandSlug: "spar",
-    category: "Rieles",
+    category: "Cajones",
     name: "Accesorio bajo fregadero",
     description:
       "Accesorio plástico bajo fregadero ideal para realizar cajones bajo pocetas. Para melaminas de 15 mm.",
@@ -969,6 +969,343 @@ export const SEED_RAW: RawProduct[] = [
     catalogPage: 43,
     variants: [
       { sku: "10009609", description: "Botón Tiradera Esparta" },
+    ],
+  },
+
+  /* ================= PERFILERIA DE ALUMINIO ================= */
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Duna",
+    name: "Sistema Duna puertas aluminio/vidrio",
+    description: "Sistema de perfiles Duna SPAR para diseños minimalistas: manija y marco para puertas con perfil imperceptible u oculto.",
+    applications: "Se puede utilizar con vidrio, porcelanato, melaminas, entre otros.",
+    features: ["Perfil imperceptible u oculto", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 52,
+    variants: [
+      { sku: "10014472", description: "DUNA PERFIL MANIJA SPAR AD-17001 (3 METROS)", attributes: { tipo: "Perfil manija" } },
+      { sku: "10014473", description: "DUNA PERFIL MARCO SPAR AD-17002 (3 METROS)", attributes: { tipo: "Perfil marco" } },
+      { sku: "10009632", description: "KIT 4 ESCUADRAS UNIVERSALES DE ENSAMBLE PERFIL ALUMINIO C2B4 SPAR", attributes: { tipo: "Escuadras de ensamble" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Toledo",
+    name: "Toledo perfil manija",
+    description: "Perfil manija Toledo SPAR, especial para dejar la manija oculta en tableros de 18 mm.",
+    features: ["Compatible con tableros de 15 mm y 18 mm", "Ranura de 1 cm de largo", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 53,
+    variants: [
+      { sku: "10014474", description: "TOLEDO PERFIL MANIJA AD-3100 SPAR 18MM/15MM (3 METROS)" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Dublin",
+    name: "Dublin perfil manija",
+    description: "Solución elegante para la apertura de gabinetes superiores, ocultando la manija.",
+    features: ["Recomendado para calibre 15 mm y 18 mm", "No requiere ranura en el material", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 53,
+    variants: [
+      { sku: "10014475", description: "DUBLIN PERFIL MANIJA ALUMINIO SPAR AE-3101 18MM (3 METROS)" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Gola",
+    name: "Gola perfil manija",
+    description: "Perfil Gola SPAR de diseño imponente que resalta la belleza y funcionalidad del mueble.",
+    features: ["Recomendado para calibre 19 mm", "Ranura de 1 cm de largo", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 54,
+    variants: [
+      { sku: "10009623", description: "GOLA PERFIL MANIJA AE2220 SPAR 19MM (3 METROS)" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Lisboa",
+    name: "Lisboa perfil manija",
+    description: "Perfil de diseño minimalista color aluminio que enmarca puertas y cajones sin quitar protagonismo al diseño.",
+    features: ["Para tableros de 15 mm y 18 mm", "Ranura de 1 cm de largo", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 54,
+    variants: [
+      { sku: "10014480", description: "LISBOA PERFIL MANIJA AD-2120 SPAR 15MM (3 METROS)", attributes: { calibre: "15 mm" } },
+      { sku: "10014479", description: "LISBOA PERFIL MANIJA AD-2120 SPAR 19MM (3 METROS)", attributes: { calibre: "19 mm" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Oporto",
+    name: "Oporto perfil manija",
+    description: "Perfil Oporto SPAR para proyectos sobrios y minimalistas, resaltando los detalles de forma sinuosa.",
+    features: ["Ranura de 1 cm de largo", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 55,
+    variants: [
+      { sku: "10009620", description: "OPORTO PERFIL MANIJA AE1219 SPAR 19MM (3 METROS)" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Grap",
+    name: "Grap perfil manija-canto",
+    description: "Sistema de perfiles Grap SPAR que permite la transición de materiales, color y texturas.",
+    features: ["Recomendado para calibre 18 mm", "Ranura de 1 cm de largo", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 55,
+    variants: [
+      { sku: "10009872", description: "GRAP PERFIL MANIJA AD-3030 SPAR 19MM (3 METROS)", attributes: { tipo: "Perfil manija" } },
+      { sku: "10009871", description: "GRAP PERFIL CANTO AD-3028 SPAR 19MM (3 METROS)", attributes: { tipo: "Perfil canto" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Gante",
+    name: "Gante perfil manija vertical",
+    description: "Perfiles manija vertical Gante SPAR para muebles tipo despensa o closet sin manijas visibles.",
+    features: ["Dos opciones: intermedio y lateral", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 56,
+    variants: [
+      { sku: "10014477", description: "GANTE PERFIL MANIJA VERTICAL INTERMEDIO AH7001 SPAR (3 METROS)", attributes: { tipo: "Intermedio" } },
+      { sku: "10014478", description: "GANTE PERFIL MANIJA VERTICAL LATERAL AH7002 SPAR (3 METROS)", attributes: { tipo: "Lateral" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Perfileria de aluminio",
+    line: "Niza",
+    name: "Niza perfil manija",
+    description: "Perfil Niza SPAR para la apertura de muebles inferiores, integrando la manija sin usar tirador.",
+    applications: "Para instalación entre dos cajones o entre un cajón y el mesón.",
+    features: ["Acabado negro", "Fácil de instalar", "Longitud: 3 metros"],
+    specs: [{ key: "Material", value: "Aluminio" }],
+    catalogPage: 57,
+    variants: [
+      { sku: "10030060", description: "NIZA PERFIL MANIJA SUPERIOR EN J NEGRA SPAR 5,6 CM (3 METROS)", attributes: { tipo: "Superior en J" } },
+      { sku: "10030061", description: "NIZA PERFIL MANIJA INTERMEDIA EN C NEGRA SPAR 7,4 CM (3 METROS)", attributes: { tipo: "Intermedia en C" } },
+      { sku: "10030067", description: "ESCUADRA DE ENSAMBLE PERFIL NIZA", attributes: { tipo: "Escuadra de ensamble" } },
+    ],
+  },
+
+  /* ================= ACCESORIOS COMPLEMENTARIOS TURIN ================= */
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Tubo soporte de 1 carril Turin negro",
+    description: "Soporte de carril Turin SPAR con acabado en pintura electrostática, de fácil instalación con chazos a pared.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "1000 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 69,
+    variants: [
+      { sku: "10014486", description: "TUBO SOPORTE DE 1 CARRIL TURIN NEGRO SPAR" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Entrepaño decorativo Turin de 1 nivel",
+    description: "Entrepaño decorativo Turin de 1 nivel, se instala en complemento con el soporte de carril Turin.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "330 x 140 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 69,
+    variants: [
+      { sku: "10014481", description: "ENTREPAÑO DECORATIVO TURIN DE 1 NIVEL SPAR" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Bandeja decorativa Turin",
+    description: "Bandeja decorativa Turin SPAR, se instala en complemento con el soporte de carril Turin.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "330 x 127 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 69,
+    variants: [
+      { sku: "10014485", description: "BANDEJA DECORATIVA TURIN SPAR" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Entrepaño decorativo Turin de 2 niveles",
+    description: "Entrepaño decorativo Turin de 2 niveles, se instala en complemento con el soporte de carril Turin.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "330 x 220 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 70,
+    variants: [
+      { sku: "10014482", description: "ENTREPAÑO DECORATIVO TURIN DE 2 NIVELES SPAR" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Soporte de 2 niveles Turin aluminio/vinipel",
+    description: "Soporte Turin SPAR para papeles aluminio y vinipel, se instala con el soporte de carril Turin.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "330 x 52 x 200 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 70,
+    variants: [
+      { sku: "10014484", description: "SOPORTE DE DOS NIVELES TURIN ALUMINIO/VINIPEL SPAR" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    line: "Turin",
+    name: "Soporte para toalla de cocina Turin con madera",
+    description: "Soporte para toalla de cocina Turin SPAR, se instala en complemento con el soporte de carril Turin.",
+    features: ["Acabado: pintura electrostática", "Color negro", "Fácil instalación"],
+    specs: [{ key: "Material", value: "Acero" }, { key: "Medidas", value: "269 x 86 x 200 mm" }, { key: "Color", value: "Negro" }],
+    catalogPage: 70,
+    variants: [
+      { sku: "10014483", description: "SOPORTE PARA TOALLA DE COCINA TURIN CON MADERA SPAR" },
+    ],
+  },
+
+  /* ================= ACCESORIOS VARIOS ================= */
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    name: "Escuadra para muebles",
+    description: "Escuadras metálicas de ensamble para refuerzo y unión de muebles.",
+    specs: [{ key: "Material", value: "Acero" }],
+    catalogPage: 75,
+    variants: [
+      { sku: "10003951", description: "ESCUADRA PARA MUEBLES 10X18 MM", attributes: { medida: "10x18 mm" } },
+      { sku: "10003953", description: "ESCUADRA PARA MUEBLES 13X30 MM", attributes: { medida: "13x30 mm" } },
+      { sku: "10003947", description: "ESCUADRA PARA MUEBLES 19X41 MM", attributes: { medida: "19x41 mm" } },
+      { sku: "10003949", description: "ESCUADRA PARA MUEBLES 20X64 MM", attributes: { medida: "20x64 mm" } },
+      { sku: "10003950", description: "ESCUADRA PARA MUEBLES 24X90 MM", attributes: { medida: "24x90 mm" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios varios",
+    name: "Topes amortiguadores en poliuretano",
+    description: "Topes amortiguadores en poliuretano para puertas y cajones; reducen el ruido al cierre.",
+    specs: [{ key: "Material", value: "Poliuretano" }],
+    catalogPage: 76,
+    variants: [
+      { sku: "10003955", description: "TOPES AMORTIGUADORES EN POLIURETANO" },
+    ],
+  },
+
+  /* ================= PATAS ================= */
+  {
+    brandSlug: "spar",
+    category: "Patas",
+    name: "Pata graduable por rosca",
+    description: "Pata graduable por sistema de rosca para nivelar muebles.",
+    applications: "Para muebles con graduación de altura por rosca: mesas auxiliares, sofás, bases de cama, entre otros.",
+    features: ["Graduación de altura por rosca"],
+    specs: [],
+    catalogPage: 73,
+    variants: [
+      { sku: "10024142", description: "PATA GRADUABLE POR ROSCA" },
+    ],
+  },
+
+  /* ================= TORNILLOS ================= */
+  {
+    brandSlug: "spar",
+    category: "Tornillos",
+    name: "Tornillo drywall zincado (paquete x100)",
+    description: "Tornillo drywall zincado, presentación en paquete de 100 unidades.",
+    specs: [{ key: "Acabado", value: "Zincado" }, { key: "Presentación", value: "Paquete x 100" }],
+    catalogPage: 78,
+    variants: [
+      { sku: "10027566", description: "TORNILLO DRYWALL ZINCADA 6X1\" (PQ DE 100)", attributes: { medida: "6 x 1\"" } },
+      { sku: "10027567", description: "TORNILLO DRYWALL ZINCADA 6X1.1/2\" (PQ DE 100)", attributes: { medida: "6 x 1 1/2\"" } },
+      { sku: "10027568", description: "TORNILLO DRYWALL ZINCADA 6X2\" (PQ DE 100)", attributes: { medida: "6 x 2\"" } },
+    ],
+  },
+
+  /* ================= BISAGRAS (adicion) ================= */
+  {
+    brandSlug: "spar",
+    category: "Bisagras",
+    subcategory: "Para mueble",
+    line: "Torino",
+    name: "Bisagra Slow Motion Torino parche 165° sin tornillos",
+    description: "Bisagra Torino de cierre lento fabricada en acero niquelado, cazoleta de 35 mm y sistema Clip-on.",
+    applications: "Ideal para puertas de despensa o muebles esquineros.",
+    features: ["Ángulo máximo de apertura de 165°", "Cierre lento", "Sistema Clip-on", "Montaje para puerta de 14 mm - 22 mm"],
+    specs: [{ key: "Capacidad de peso", value: "5 Kg" }, { key: "Resistencia a la corrosión", value: "24 hr" }, { key: "Ciclos de vida", value: "50.000" }],
+    catalogPage: 173,
+    variants: [
+      { sku: "10025256", description: "BISAGRA SLOW MOTION TORINO PARCHE 35MM - 165° S/T" },
+    ],
+  },
+
+  /* ================= SISTEMAS PARA CLOSET (adicion) ================= */
+  {
+    brandSlug: "spar",
+    category: "Sistemas para closet",
+    line: "Venetto",
+    name: "Riel aluminio SD-50 Venetto (3 metros)",
+    description: "Riel de aluminio superior e inferior para el sistema corredizo SD-50 Venetto.",
+    specs: [{ key: "Material", value: "Aluminio" }, { key: "Longitud", value: "3 metros" }],
+    catalogPage: 49,
+    variants: [
+      { sku: "10023115", description: "RIEL ALUMINIO SUPERIOR SD-50 X 3 METROS VENETTO 1621", attributes: { tipo: "Superior" } },
+      { sku: "10028701", description: "RIEL ALUMINIO SUPERIOR SD-50 X 3 METROS VENETTO 1621", attributes: { tipo: "Superior" } },
+      { sku: "10028702", description: "RIEL ALUMINIO INFERIOR SD-50 X 3 METROS VENETTO 1618", attributes: { tipo: "Inferior" } },
+      { sku: "10023116", description: "RIEL ALUMINIO INFERIOR SD-50 X 3 METROS VENETTO 1618", attributes: { tipo: "Inferior" } },
+    ],
+  },
+
+  /* ================= ACCESORIOS PARA COCINA (adicion) ================= */
+  {
+    brandSlug: "spar",
+    category: "Accesorios para cocina",
+    name: "Cubiertero slim",
+    description: "Cubiertero slim para organizar cubiertos y accesorios pequeños de cocina.",
+    specs: [],
+    catalogPage: 61,
+    variants: [
+      { sku: "10024095", description: "CUBIERTERO SLIM DE 6 ESPACIOS", attributes: { espacios: "6" } },
+      { sku: "10024141", description: "CUBIERTERO SLIM DE 7 ESPACIOS", attributes: { espacios: "7" } },
+      { sku: "10025201", description: "CUBIERTERO SLIM DE 7 ESPACIOS", attributes: { espacios: "7" } },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Accesorios para cocina",
+    name: "Esquina mágica Spar gris grafito",
+    description: "Esquina mágica Spar con base en melamina color grafito, aprovecha el espacio de los muebles esquineros.",
+    specs: [{ key: "Acabado", value: "Gris grafito" }],
+    catalogPage: 62,
+    variants: [
+      { sku: "10030064", description: "ESQUINA MÁGICA SPAR GRIS GRAFITO/MELAMINA GRAFFO" },
+    ],
+  },
+  {
+    brandSlug: "spar",
+    category: "Cajones",
+    name: "Luz LED para Kit Cajón de vidrio",
+    description: "Luz LED complementaria para los Kit Cajón Spar con laterales de vidrio.",
+    specs: [],
+    catalogPage: 187,
+    variants: [
+      { sku: "10029448", description: "LUZ LED PARA KIT CAJÓN DE VIDRIO" },
     ],
   },
 ];
