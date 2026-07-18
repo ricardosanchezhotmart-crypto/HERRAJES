@@ -6,14 +6,12 @@ import {
   getBrand,
   getCategories,
   getProduct,
-  getRelated,
   getSubcategories,
 } from "@/lib/catalog";
 import { ACTIVE_BRAND_SLUG } from "@/lib/constants";
 import { ProductImage } from "@/components/product-image";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductActions } from "@/components/product-actions";
-import { ProductCard } from "@/components/product-card";
 import { Card } from "@/components/ui/card";
 
 export const revalidate = 60;
@@ -62,7 +60,6 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const subcategories = category ? await getSubcategories(category.id) : [];
   const subcategory = subcategories.find((s) => s.id === product.subcategoryId);
   const brand = await getBrand(ACTIVE_BRAND_SLUG);
-  const related = await getRelated(product);
   // El código en la cabecera/ficha solo tiene sentido con una única referencia;
   // con varias (p. ej. rieles por medida) cada una lleva su código en el selector.
   const code = (product.variants?.length ?? 0) === 1 ? product.variants![0].sku : undefined;
@@ -165,19 +162,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
         )}
       </div>
 
-      {/* 8. Productos compatibles */}
-      {related.length > 0 && (
-        <section className="mx-auto mt-20 max-w-5xl sm:mt-24">
-          <SectionLabel>Productos compatibles</SectionLabel>
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {related.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Agregar al pedido / Solicitar cotización / WhatsApp */}
+      {/* Agregar al pedido */}
       <div className="mx-auto mt-20 max-w-2xl border-t border-border pt-12 sm:mt-24">
         <ProductActions product={product} />
       </div>

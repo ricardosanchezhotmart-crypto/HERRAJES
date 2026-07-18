@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import type { Category } from "@/types";
-import { whatsappLink } from "@/lib/constants";
 import { useSearchStore } from "@/store/search";
 import { CartBadge } from "@/components/cart-badge";
 import { CategoryMenu } from "@/components/category-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
 
 export function Navbar({ categories }: { categories: Category[] }) {
   const setSearchOpen = useSearchStore((s) => s.setOpen);
@@ -49,13 +47,11 @@ export function Navbar({ categories }: { categories: Category[] }) {
             <CategoryMenu categories={categories} />
           </div>
 
-          <a href={whatsappLink("Hola, quiero información de sus herrajes.")} target="_blank" rel="noopener noreferrer">
-            <Button variant="whatsapp" size="icon" className="h-9 w-9 sm:h-10 sm:w-10" aria-label="WhatsApp">
-              <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Button>
-          </a>
-
           <ThemeToggle />
+
+          {/* Separador para despegar el tema del carrito */}
+          <span className="mx-1 hidden h-6 w-px bg-border sm:inline-block" aria-hidden />
+
           <CartBadge />
         </div>
       </div>

@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { SearchCommand } from "@/components/search-command";
+import { WhatsappFab } from "@/components/whatsapp-fab";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Footer />
           </div>
           <SearchCommand />
+          <WhatsappFab />
         </ThemeProvider>
       </body>
     </html>

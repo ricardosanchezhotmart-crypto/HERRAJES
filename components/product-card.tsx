@@ -33,7 +33,7 @@ export function ProductCard({ product }: { product: Product }) {
             {code && (
               <p className="font-mono text-xs tracking-tight text-muted-foreground">{code}</p>
             )}
-            <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{product.name}</h3>
+            <h3 className="text-sm font-semibold leading-snug">{product.name}</h3>
             {traits.length > 0 && (
               <p className="line-clamp-1 text-xs text-muted-foreground">{traits.join(" · ")}</p>
             )}

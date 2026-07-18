@@ -1,13 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import { Check, Minus, MessageCircle, Plus, ShoppingBag } from "lucide-react";
+import { Check, Minus, Plus } from "lucide-react";
 import type { Product, Variant } from "@/types";
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/button";
-import { whatsappLink } from "@/lib/constants";
-import { buildProductInquiryMessage, buildProductMultiInquiry } from "@/lib/quote";
 import { cn, formatCOP } from "@/lib/utils";
 
 /** Etiqueta corta de una variante (medida/acabado) para mostrar junto al precio. */
@@ -17,7 +14,6 @@ function variantLabel(v: Variant): string {
 }
 
 export function ProductActions({ product }: { product: Product }) {
-  const router = useRouter();
   const variants = product.variants ?? [];
   const add = useCart((s) => s.add);
   const [added, setAdded] = React.useState(false);
@@ -58,17 +54,6 @@ export function ProductActions({ product }: { product: Product }) {
     setAdded(true);
     setTimeout(() => setAdded(false), 1600);
   };
-
-  const waMessage = single
-    ? buildProductInquiryMessage({
-        name: product.name,
-        code: variants[0]?.sku ?? "N/A",
-        qty: qtys[variants[0]?.sku] || 1,
-      })
-    : buildProductMultiInquiry(
-        product.name,
-        selectedLines.map((x) => ({ label: variantLabel(x.v), code: x.v.sku, qty: x.qty }))
-      );
 
   return (
     <div className="space-y-5">
@@ -132,30 +117,10 @@ export function ProductActions({ product }: { product: Product }) {
         </div>
       )}
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <Button size="lg" className="flex-1" onClick={addAll} disabled={totalUnits === 0}>
-          {added ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          {added ? "Agregado" : "Agregar al pedido"}
-        </Button>
-        <Button
-          size="lg"
-          variant="outline"
-          className="flex-1"
-          disabled={totalUnits === 0}
-          onClick={() => {
-            addAll();
-            router.push("/pedido");
-          }}
-        >
-          <ShoppingBag className="h-4 w-4" /> Solicitar cotización
-        </Button>
-      </div>
-
-      <a href={whatsappLink(waMessage)} target="_blank" rel="noopener noreferrer" className="block">
-        <Button variant="whatsapp" size="lg" className="w-full">
-          <MessageCircle className="h-4 w-4" /> Consultar por WhatsApp
-        </Button>
-      </a>
+      <Button size="lg" className="w-full" onClick={addAll} disabled={totalUnits === 0}>
+        {added ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        {added ? "Agregado al pedido" : "Agregar al pedido"}
+      </Button>
     </div>
   );
 }
