@@ -28,7 +28,10 @@ export function Hero() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/55 to-transparent" />
+        {/* Overlay oscuro uniforme (~45%) para legibilidad del texto,
+            reforzado un poco abajo donde va el buscador. */}
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
       </div>
 
       <div className="container flex flex-col items-center gap-6 py-14 text-center sm:gap-8 sm:py-20 lg:py-24">
