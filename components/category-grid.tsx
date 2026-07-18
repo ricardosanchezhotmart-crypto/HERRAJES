@@ -5,8 +5,20 @@ import { Card } from "@/components/ui/card";
 import { ProductImage } from "@/components/product-image";
 
 /**
- * Portada preferida por categoría: el producto cuya fotografía muestra mejor
- * el herraje en contexto (instalado), en vez de la primera imagen disponible.
+ * Portada de estilo de vida por categoría (foto de alta calidad, herraje en
+ * uso). Para activar una, sube la imagen a `public/categorias/<slug>.jpg` y
+ * agrega aquí la entrada `"<slug>": "/categorias/<slug>.jpg"`. Tiene prioridad
+ * sobre la foto de producto.
+ */
+const CATEGORY_COVERS: Record<string, string> = {
+  // "rieles": "/categorias/rieles.jpg",
+  // "bisagras": "/categorias/bisagras.jpg",
+  // ...
+};
+
+/**
+ * Portada preferida por categoría (fallback): el producto cuya fotografía
+ * muestra mejor el herraje en contexto, en vez de la primera imagen disponible.
  */
 const COVER_OVERRIDES: Record<string, string> = {
   cajones: "spar_cajones_kit-cajon-spar-cacerolero-h128mm-para-vidrio",
@@ -41,10 +53,12 @@ export function CategoryGrid({
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 lg:gap-6">
       {categories.map((cat) => {
+        const customCover = CATEGORY_COVERS[cat.slug];
         const overrideId = COVER_OVERRIDES[cat.slug];
-        const cover =
+        const productCover =
           (overrideId && products.find((p) => p.id === overrideId)) ||
           products.find((p) => p.categoryId === cat.id && p.images?.[0]);
+        const coverSrc = customCover ?? productCover?.images?.[0];
         return (
           <Link
             key={cat.id}
@@ -59,7 +73,7 @@ export function CategoryGrid({
                   </div>
                 ) : (
                   <ProductImage
-                    src={cover?.images?.[0]}
+                    src={coverSrc}
                     alt={cat.name}
                     label={cat.name}
                     sizes="(min-width: 1024px) 400px, 50vw"
