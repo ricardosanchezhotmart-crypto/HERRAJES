@@ -20,22 +20,25 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[400px] items-center overflow-hidden sm:min-h-[520px] lg:min-h-[640px]">
       <div className="absolute inset-0 -z-10">
+        {/* La foto funciona como fondo inspirador: ligero desenfoque + un
+            leve escalado (para que el blur no revele bordes) mantienen el foco
+            en el título y el buscador. */}
         <Image
           src="/hero-cocina.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="scale-105 object-cover blur-[3px]"
         />
-        {/* Overlay oscuro uniforme (~45%) para legibilidad del texto,
-            reforzado un poco abajo donde va el buscador. */}
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        {/* Overlay oscuro (~55%) para máximo contraste y legibilidad,
+            reforzado arriba y abajo con un degradado sutil. */}
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
       </div>
 
-      <div className="container flex flex-col items-center gap-6 py-14 text-center sm:gap-8 sm:py-20 lg:py-24">
-        <div className="flex flex-col items-center gap-4 sm:gap-5">
+      <div className="container flex flex-col items-center gap-7 py-16 text-center sm:gap-9 sm:py-24 lg:py-28">
+        <div className="flex flex-col items-center gap-4 sm:gap-5 [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]">
           <motion.h1
             custom={0}
             variants={fade}
@@ -50,7 +53,7 @@ export function Hero() {
             variants={fade}
             initial="hidden"
             animate="show"
-            className="max-w-md text-balance text-base text-white/85 sm:text-lg lg:text-xl"
+            className="max-w-md text-balance text-base text-white/90 sm:text-lg lg:text-xl"
           >
             Busca por código, nombre, medida o descripción.
           </motion.p>
@@ -63,9 +66,9 @@ export function Hero() {
           animate="show"
           onClick={() => setSearchOpen(true)}
           aria-label="Abrir búsqueda de herrajes"
-          className="group flex h-14 w-full max-w-xl items-center gap-3 rounded-2xl border border-white/20 bg-white/95 px-6 text-left shadow-elevate backdrop-blur transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white dark:bg-card/95 dark:hover:bg-card sm:h-16"
+          className="group flex h-14 w-full max-w-xl items-center gap-3 rounded-2xl bg-white px-6 text-left shadow-2xl ring-1 ring-black/5 transition hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white dark:bg-card sm:h-16"
         >
-          <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
+          <Search className="h-5 w-5 shrink-0 text-primary" />
           <span className="flex-1 text-base text-muted-foreground group-hover:text-foreground sm:text-lg">
             Buscar herrajes…
           </span>
