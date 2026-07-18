@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
 import type { Category, Product } from "@/types";
@@ -5,16 +7,26 @@ import { Card } from "@/components/ui/card";
 import { ProductImage } from "@/components/product-image";
 
 /**
- * Portada de estilo de vida por categoría (foto de alta calidad, herraje en
- * uso). Para activar una, sube la imagen a `public/categorias/<slug>.jpg` y
- * agrega aquí la entrada `"<slug>": "/categorias/<slug>.jpg"`. Tiene prioridad
+ * Portadas de estilo de vida por categoría: DETECCIÓN AUTOMÁTICA.
+ * Basta con subir una imagen a `public/categorias/<slug>.(jpg|jpeg|png|webp)`
+ * — por ejemplo `public/categorias/rieles.jpg` — y en el próximo despliegue la
+ * tarjeta de esa categoría la usará sola, sin tocar código. Tiene prioridad
  * sobre la foto de producto.
  */
-const CATEGORY_COVERS: Record<string, string> = {
-  // "rieles": "/categorias/rieles.jpg",
-  // "bisagras": "/categorias/bisagras.jpg",
-  // ...
-};
+function readCategoryCovers(): Record<string, string> {
+  const dir = path.join(process.cwd(), "public", "categorias");
+  const map: Record<string, string> = {};
+  try {
+    for (const file of fs.readdirSync(dir)) {
+      const m = file.match(/^(.+)\.(jpe?g|png|webp)$/i);
+      if (m) map[m[1].toLowerCase()] = `/categorias/${file}`;
+    }
+  } catch {
+    /* la carpeta puede no existir aún */
+  }
+  return map;
+}
+const CATEGORY_COVERS = readCategoryCovers();
 
 /**
  * Portada preferida por categoría (fallback): el producto cuya fotografía
